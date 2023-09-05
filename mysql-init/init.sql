@@ -1,0 +1,3 @@
+CREATE DATABASE IF NOT EXISTS pet_shop;
+GRANT ALL PRIVILEGES ON pet_shop.* TO 'laraveluser'@'%';
+FLUSH PRIVILEGES;

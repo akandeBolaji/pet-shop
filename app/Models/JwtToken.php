@@ -29,4 +29,27 @@ class JwtToken extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Makes the token invalid when the user logs out.
+     *
+     * @return bool
+     */
+    public function invalidate(): bool
+    {
+        // Set the expiration time to the current time to invalidate the token
+        $this->expires_at = now();
+        return $this->save();
+    }
+
+    /**
+     * Checks the validity status of the token.
+     *
+     * @return bool
+     */
+    public function isValid(): bool
+    {
+        // Check if the token has not expired (expires_at is in the future)
+        return now()->lt($this->expires_at);
+    }
 }

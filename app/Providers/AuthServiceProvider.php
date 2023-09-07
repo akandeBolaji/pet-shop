@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use App\Extensions\JWTGuard;
+use App\Extensions\JWTLibraryClient;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use InvalidArgumentException;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -19,8 +21,18 @@ class AuthServiceProvider extends ServiceProvider
     /**
      * Register any authentication / authorization services.
      */
-    public function boot(): void
+    public function boot()
     {
-        //
+        $this->registerPolicies();
+
+        Auth::extend('jwt', function ($app, $name, array $config) {
+            $provider = Auth::createUserProvider($config['provider']);
+
+            if ($provider !== null) {
+                return new JWTGuard($provider, $app->make('request'), $app->make(JWTLibraryClient::class));
+            }
+
+            throw new InvalidArgumentException('UserProvider cannot be null');
+        });
     }
 }

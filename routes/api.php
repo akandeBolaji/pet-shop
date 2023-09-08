@@ -60,8 +60,8 @@ Route::group(['prefix' => 'v1/main'], function () {
 });
 
 /* Brands Endpoints */
+Route::get('/brands', [BrandsController::class, 'index'])->name('brands');
 Route::group(['prefix' => 'v1/brand'], function () {
-    Route::get('/', [BrandsController::class, 'index'])->name('brands');
     Route::get('{brand:uuid}', [BrandsController::class, 'show'])->name('brand.show');
 
     Route::group(['middleware' => ['auth:api', 'admin']], function () {
@@ -72,6 +72,7 @@ Route::group(['prefix' => 'v1/brand'], function () {
 });
 
 /* Products Endpoints */
+Route::get('v1/products', [ProductsController::class, 'index'])->name('products');
 Route::group(['prefix' => 'v1/product'], function () {
     Route::get('/', [ProductsController::class, 'index'])->name('products');
     Route::get('{product:uuid}', [ProductsController::class, 'show'])->name('product.show');

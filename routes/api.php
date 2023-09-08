@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\MainPageController;
+use App\Http\Controllers\OrderStatusesController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\UserController;
 
@@ -82,4 +83,14 @@ Route::group(['prefix' => 'v1/product'], function () {
     });
 });
 
- 
+ /* Order statuses Endpoints */
+Route::get('v1/order-statuses', [OrderStatusesController::class, 'index'])->name('order-statuses');
+Route::group(['prefix' => 'v1/order-status'], function () {
+    Route::get('{order_status:uuid}', [OrderStatusesController::class, 'show'])->name('order-status.show');
+
+    Route::group(['middleware' => ['auth:api', 'admin']], function () {
+        Route::post('create', [OrderStatusesController::class, 'store'])->name('order-status.create');
+        Route::put('{order_status:uuid}', [OrderStatusesController::class, 'update'])->name('order-status.update');
+        Route::delete('{order_status:uuid}', [OrderStatusesController::class, 'destroy'])->name('order-status.delete');
+    });
+});

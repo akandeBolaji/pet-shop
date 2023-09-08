@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\OrderStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\OrderStatus>
+ * @extends Factory<OrderStatus>
  */
 class OrderStatusFactory extends Factory
 {
@@ -14,11 +15,10 @@ class OrderStatusFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
+    public function definition()
     {
         return [
-            'uuid' => (string) Str::uuid(),
-            'title' => $this->faker->unique()->word(),
+            'title' => fake()->sentence(rand(1, 4)),
         ];
     }
 }

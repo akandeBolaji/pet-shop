@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BrandsController;
+use App\Http\Controllers\FilesController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\OrderStatusesController;
 use App\Http\Controllers\PaymentsController;
@@ -107,4 +108,10 @@ Route::group(['prefix' => 'v1/payment', 'middleware' => ['auth:api']], function 
         Route::put('{payment:uuid}', [PaymentsController::class, 'update'])->name('payment.update');
         Route::delete('{payment:uuid}', [PaymentsController::class, 'destroy'])->name('payment.delete');
     });
+});
+
+/* Files Endpoint */
+Route::group(['prefix' => 'v1/file'], function () {
+    Route::get('{file:uuid}', [FilesController::class, 'show'])->name('file.show');
+    Route::post('/upload', [FilesController::class, 'store'])->middleware('auth:api')->name('file.upload');
 });

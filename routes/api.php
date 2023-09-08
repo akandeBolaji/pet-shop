@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\UserController;
 
 use Illuminate\Http\Request;
@@ -35,16 +36,24 @@ Route::group(['prefix' => 'v1/admin'], function () {
 });
 
 /* User Endpoints */
-Route::group(['prefix' => 'user'], function () {
+Route::group(['prefix' => 'v1/user'], function () {
     Route::post('create', [UserController::class, 'register'])->name('user.create');
     Route::post('login', [UserController::class, 'login'])->name('user.login');
 
     Route::group(['middleware' => ['auth:api', 'user']], function () {
         Route::get('logout', [UserController::class, 'logout'])->name('user.logout');
         Route::get('/', [UserController::class, 'profile'])->name('user.profile');
-        Route::get('/orders', [UserController::class, 'orders'])->name('user.orders');
+        Route::get('/orders', [OrderController::class, 'index'])->name('user.orders');
         Route::delete('/', [UserController::class, 'delete'])->name('user.delete');
         Route::put('/edit', [UserController::class, 'update'])->name('user.update');
     });
 });
 
+/* Main Page Endpoints */
+Route::group(['prefix' => 'v1/main'], function () {
+    Route::get('promotions', [MainPageController::class, 'promotions'])->name('promotions');
+    Route::get('blog', [MainPageController::class, 'posts'])->name('blog');
+    Route::get('blog/{post:uuid}', [MainPageController::class, 'showPost'])->name('blog.show');
+});
+
+ 

@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\OrderStatusesController;
+use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\UserController;
 
@@ -60,7 +61,7 @@ Route::group(['prefix' => 'v1/main'], function () {
 });
 
 /* Brands Endpoints */
-Route::get('/brands', [BrandsController::class, 'index'])->name('brands');
+Route::get('v1/brands', [BrandsController::class, 'index'])->name('brands');
 Route::group(['prefix' => 'v1/brand'], function () {
     Route::get('{brand:uuid}', [BrandsController::class, 'show'])->name('brand.show');
 
@@ -93,5 +94,17 @@ Route::group(['prefix' => 'v1/order-status'], function () {
         Route::post('create', [OrderStatusesController::class, 'store'])->name('order-status.create');
         Route::put('{order_status:uuid}', [OrderStatusesController::class, 'update'])->name('order-status.update');
         Route::delete('{order_status:uuid}', [OrderStatusesController::class, 'destroy'])->name('order-status.delete');
+    });
+});
+
+/* Payments Endpoints */
+Route::get('v1/payments', [PaymentsController::class, 'index'])->middleware(['auth:api', 'admin'])->name('payments');
+Route::group(['prefix' => 'v1/payment', 'middleware' => ['auth:api']], function () {
+    Route::post('create', [PaymentsController::class, 'store'])->middleware('user')->name('payment.create');
+
+    Route::group(['middleware' => 'admin'], function () {
+        Route::get('{payment:uuid}', [PaymentsController::class, 'show'])->name('payment.show');
+        Route::put('{payment:uuid}', [PaymentsController::class, 'update'])->name('payment.update');
+        Route::delete('{payment:uuid}', [PaymentsController::class, 'destroy'])->name('payment.delete');
     });
 });

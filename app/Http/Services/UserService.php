@@ -59,4 +59,30 @@ class UserService
 
         return Auth::attempt($credentials);
     }
+
+    /**
+     * Updates user record.
+     *
+     * @param User $user
+     * @param array $data
+     * @return bool
+     */
+    public function update(User $user, array $data): bool
+    {
+        $data['is_marketing'] = ! empty($data['is_marketing']);
+
+        return $user->update($data);
+    }
+
+    /**
+     * Deletes user record.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function delete(User $user): bool
+    {
+        return (bool) $user->delete();
+    }
 }
+ 

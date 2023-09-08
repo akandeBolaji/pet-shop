@@ -98,4 +98,46 @@ class AdminTest extends TestCase
         $response = $this->get(route('admin.logout'), $this->getAdminAuthHeaders());
         $response->assertStatus(Response::HTTP_OK);
     }
+
+    public function test_admin_can_view_user_listing()
+    {
+        $response = $this->post(route('admin.user-listing'), [], $this->getAdminAuthHeaders());
+        $response->assertStatus(Response::HTTP_OK)
+            //confirm if record is paginated
+            ->assertJsonPath('data.current_page', 1);
+    }
+
+    public function test_admin_can_edit_user()
+    {
+        $user = User::factory()->create();
+        $user_arr = $user->toArray();
+
+        $updated = User::factory()->marketing()->make()->toArray();
+        $updated['is_marketing'] = 'is_marketing';
+        $updated['password'] = 'password';
+        $updated['password_confirmation'] = 'password';
+        $updated = array_merge($user_arr, $updated);
+
+        $response = $this->put(route('admin.user-update', ['user' => $user->uuid]), $updated, $this->getAdminAuthHeaders());
+        $response->assertStatus(Response::HTTP_OK);
+
+        $user->refresh();
+        $this->assertEquals($user->first_name, $updated['first_name']);
+    }
+
+    public function test_admin_can_delete_user_account()
+    {
+        $this->withoutExceptionHandling();
+
+        //create user
+        $user = User::factory()->create();
+
+        //delete the user with admin account
+        $response = $this->delete(route('admin.user-delete', ['user' => $user->uuid]), [], $this->getAdminAuthHeaders());
+        $response->assertStatus(Response::HTTP_OK);
+
+        //fetch the user afresh from the db
+        $user = User::find($user->id);
+        $this->assertNull($user);
+    }
 }

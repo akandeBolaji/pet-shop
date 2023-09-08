@@ -2,9 +2,11 @@
 
 namespace Tests\Unit;
 
+use App\DTOs\FilterParams;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Http\Services\UserService;
 use App\Models\User;
 use App\Http\Resources\UserResource;
@@ -78,6 +80,59 @@ class AdminControllerTest extends TestCase
         $response = $this->adminController->logout();
 
         $this->assertInstanceOf(JsonResponse::class, $response);
+    }
+
+    public function test_user_edit_method_successful(): void
+    {
+        $userMock = Mockery::mock(User::class);
+        $userMock->shouldReceive('isAdmin')->andReturn(false);
+
+        $requestMock = Mockery::mock(UpdateUserRequest::class);
+        $requestMock->shouldReceive('validFields')->andReturn(['field_data']);
+
+        $this->userService->shouldReceive('update')->with($userMock, ['field_data'])->andReturn(true);
+
+        $response = $this->adminController->userEdit($userMock, $requestMock);
+
+        $this->assertInstanceOf(JsonResponse::class, $response);
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
+
+    public function test_user_edit_method_failure_due_to_admin(): void
+    {
+        $userMock = Mockery::mock(User::class);
+        $userMock->shouldReceive('isAdmin')->andReturn(true);
+
+        $requestMock = Mockery::mock(UpdateUserRequest::class);
+
+        $response = $this->adminController->userEdit($userMock, $requestMock);
+
+        $this->assertInstanceOf(JsonResponse::class, $response);
+        $this->assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
+    }
+
+    public function test_user_delete_method_successful(): void
+    {
+        $userMock = Mockery::mock(User::class);
+        $userMock->shouldReceive('isAdmin')->andReturn(false);
+
+        $this->userService->shouldReceive('delete')->with($userMock)->andReturn(true);
+
+        $response = $this->adminController->userDelete($userMock);
+
+        $this->assertInstanceOf(JsonResponse::class, $response);
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
+
+    public function test_user_delete_method_failure_due_to_admin(): void
+    {
+        $userMock = Mockery::mock(User::class);
+        $userMock->shouldReceive('isAdmin')->andReturn(true);
+
+        $response = $this->adminController->userDelete($userMock);
+
+        $this->assertInstanceOf(JsonResponse::class, $response);
+        $this->assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
     }
 
     protected function tearDown(): void

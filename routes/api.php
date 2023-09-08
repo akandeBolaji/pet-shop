@@ -27,6 +27,9 @@ Route::group(['prefix' => 'v1/admin'], function () {
 
     Route::group(['middleware' => ['auth:api', 'admin']], function () {
         Route::get('logout', [AdminController::class, 'logout'])->name('admin.logout');
+        Route::post('user-listing', [AdminController::class, 'userListing'])->name('admin.user-listing');
+        Route::put('user-edit/{user:uuid}', [AdminController::class, 'userEdit'])->name('admin.user-update');
+        Route::delete('user-delete/{user:uuid}', [AdminController::class, 'userDelete'])->name('admin.user-delete');
     });
 });
 

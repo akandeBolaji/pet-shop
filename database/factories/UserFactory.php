@@ -21,7 +21,7 @@ class UserFactory extends Factory
             'uuid' => (string) Str::uuid(),
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
-            'is_admin' => $this->faker->boolean(20), // 20% chance of being true
+            'is_admin' => false,
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
             'password' => bcrypt('password'), // password

@@ -12,17 +12,23 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('order_status_id')->constrained('order_statuses');
-            $table->foreignId('payment_id')->constrained();
-            $table->uuid('uuid');
+            $table->bigIncrements('id');
+            $table->uuid()->unique();
+            $table->uuid('user_uuid');
+            $table->uuid('order_status_uuid');
+            $table->uuid('payment_uuid')->nullable();
             $table->json('products');
             $table->json('address');
-            $table->float('delivery_fee')->nullable();
+            $table->float('delivery_fee');
             $table->float('amount');
-            $table->timestamps();
             $table->timestamp('shipped_at')->nullable();
+            $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+
+            $table->index(['uuid']);
+            $table->foreign('user_uuid')->references('uuid')->on('users');
+            $table->foreign('order_status_uuid')->references('uuid')->on('order_statuses');
+            $table->foreign('payment_uuid')->references('uuid')->on('payments');
         });
     }
 

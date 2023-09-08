@@ -12,13 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('files', function (Blueprint $table) {
-            $table->id();
-            $table->uuid('uuid');
+            $table->bigIncrements('id');
+            $table->uuid()->unique();
             $table->string('name');
-            $table->string('path');
             $table->string('size');
-            $table->string('type'); // mime/type
+            $table->string('type');
+            $table->string('path');
             $table->timestamps();
+
+            $table->index(['uuid']);
         });
     }
 

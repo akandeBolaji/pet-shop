@@ -27,6 +27,8 @@ return new class extends Migration
             $table->timestamp('last_login_at')->nullable();
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
+
+            $table->index(['uuid', 'is_admin']);
         });
     }
 

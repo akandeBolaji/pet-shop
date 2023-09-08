@@ -12,11 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('payments', function (Blueprint $table) {
-            $table->id();
-            $table->uuid('uuid');
+            $table->bigIncrements('id');
+            $table->uuid()->unique();
             $table->string('type');
             $table->json('details');
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+
+            $table->index(['uuid']); 
         });
     }
 

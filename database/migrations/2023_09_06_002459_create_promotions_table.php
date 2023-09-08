@@ -12,12 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('promotions', function (Blueprint $table) {
-            $table->id();
-            $table->uuid('uuid');
+            $table->bigIncrements('id');
+            $table->uuid()->unique();
             $table->string('title');
-            $table->string('content');
+            $table->text('content');
             $table->json('metadata');
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+
+            $table->index(['uuid']);
         });
     }
 

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\MainPageController;
+use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\UserController;
 
 use Illuminate\Http\Request;
@@ -58,7 +59,7 @@ Route::group(['prefix' => 'v1/main'], function () {
 });
 
 /* Brands Endpoints */
-Route::group(['prefix' => 'brand'], function () {
+Route::group(['prefix' => 'v1/brand'], function () {
     Route::get('/', [BrandsController::class, 'index'])->name('brands');
     Route::get('{brand:uuid}', [BrandsController::class, 'show'])->name('brand.show');
 
@@ -66,6 +67,18 @@ Route::group(['prefix' => 'brand'], function () {
         Route::post('create', [BrandsController::class, 'store'])->name('brand.create');
         Route::put('{brand:uuid}', [BrandsController::class, 'update'])->name('brand.update');
         Route::delete('{brand:uuid}', [BrandsController::class, 'destroy'])->name('brand.delete');
+    });
+});
+
+/* Products Endpoints */
+Route::group(['prefix' => 'v1/product'], function () {
+    Route::get('/', [ProductsController::class, 'index'])->name('products');
+    Route::get('{product:uuid}', [ProductsController::class, 'show'])->name('product.show');
+
+    Route::group(['middleware' => ['auth:api', 'admin']], function () {
+        Route::post('create', [ProductsController::class, 'store'])->name('product.create');
+        Route::put('{product:uuid}', [ProductsController::class, 'update'])->name('product.update');
+        Route::delete('{product:uuid}', [ProductsController::class, 'destroy'])->name('product.delete');
     });
 });
 

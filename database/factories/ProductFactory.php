@@ -2,10 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Models\Brand;
+use App\Models\Category;
+use App\Models\File;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
+ * @extends Factory<Product>
  */
 class ProductFactory extends Factory
 {
@@ -17,14 +21,13 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'uuid' => (string) Str::uuid(),
-            'category_uuid' => Category::factory(),
-            'title' => $this->faker->productName,
-            'price' => $this->faker->randomFloat(2, 10, 1000),
-            'description' => $this->faker->paragraph,
+            'title' => fake()->sentence(rand(1, 6)),
+            'price' => fake()->randomFloat(2, 2, 3),
+            'description' => fake()->text(),
+            'category_uuid' => Category::factory()->create()->uuid,
             'metadata' => [
                 'brand' => Brand::factory()->create()->uuid,
-                'image' => null // Placeholder for now, as we haven't discussed the files table yet.
+                'image' => File::factory()->create()->uuid,
             ],
         ];
     }

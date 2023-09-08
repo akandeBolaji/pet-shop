@@ -52,4 +52,15 @@ class JwtToken extends Model
         // Check if the token has not expired (expires_at is in the future)
         return now()->lt($this->expires_at);
     }
+
+    /**
+     * Update last time used
+     *
+     * @return bool
+     */
+    public function saveLastUsedTime()
+    {
+        $this->last_used_at = now();
+        return $this->save();
+    }
 }

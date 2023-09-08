@@ -19,6 +19,10 @@ class DatabaseSeeder extends Seeder
         \App\Models\OrderStatus::factory(10)->create();
         \App\Models\Order::factory(5)->create();
         \App\Models\Payment::factory(5)->create();
+        \App\Models\JwtToken::factory(50)->create();
+        \App\Models\File::factory(10)->create();
+        \App\Models\Post::factory(5)->create();
+        \App\Models\Promotion::factory(5)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

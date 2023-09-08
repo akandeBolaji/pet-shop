@@ -2,8 +2,9 @@
 
 namespace App\Providers;
 
-use App\Extensions\JWTGuard;
-use App\Extensions\JWTLibraryClient;
+use Auth;
+use App\Libraries\JWTGuard;
+use App\Libraries\JWTLibraryClient;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use InvalidArgumentException;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Extensions;
+namespace App\Libraries;
 
 use App\DTOs\IssuedToken;
 use App\Models\JwtToken;

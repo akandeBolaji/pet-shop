@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Traits\HasJwtTokens;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Str;
+
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasJwtTokens, SoftDeletes, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -18,17 +20,14 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'uuid',
         'first_name',
         'last_name',
         'is_admin',
         'email',
-        'password',
         'avatar',
         'address',
         'phone_number',
-        'is_marketing',
-        'last_login_at'
+        'is_marketing'
     ];
 
     /**
@@ -38,7 +37,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
+        'is_admin',
     ];
 
     /**
@@ -54,14 +53,47 @@ class User extends Authenticatable
         'last_login_at' => 'datetime'
     ];
 
-    protected static function boot()
+   /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
     {
-        parent::boot();
-
-        static::creating(function ($model) {
-            if (!$model->getKey()) {
-                $model->{$model->getKeyName()} = (string) Str::uuid();
-            }
+        static::creating(function ($user) {
+            $user->uuid = Str::uuid()->toString();
         });
     }
+
+    /**
+     * Called when user logs in
+     *
+     * @return void
+     */
+    public function loggedIn()
+    {
+        $this->last_login_at = now();
+        $this->save();
+    }
+
+    /**
+     * Checks if user is admin.
+     *
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return $this->is_admin;
+    }
+
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array<string, string|boolean>
+     */
+    protected $attributes = [
+        'uuid' => '',
+        'is_admin' => false,
+        'is_marketing' => false
+    ];
 }

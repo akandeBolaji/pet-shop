@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Extensions;
+namespace App\Libraries;
 
+use App\DTOs\IssuedToken;
 use App\Models\JwtToken;
 use Exception;
 use Illuminate\Support\Str;
@@ -23,9 +24,9 @@ class LcobucciJWT extends JWTLibraryClient
      * Issue the jwt and return the string.
      *
      * @param string $user_identifier
-     * @return string
+     * @return IssuedToken
      */
-    public function issueToken(string $user_identifier): string
+    public function issueToken(string $user_identifier): IssuedToken
     {
         $now = new \DateTimeImmutable();
         $unique_id = Str::random(20);
@@ -37,10 +38,10 @@ class LcobucciJWT extends JWTLibraryClient
             ->issuedAt($now) // Configures the time that the token was issue (iat claim)
             ->canOnlyBeUsedAfter($now) // Configures the time that the token can be used (nbf claim)
             ->expiresAt($expires_at) // Configures the expiration time of the token (exp claim)
-            ->withClaim('uuid', $user_identifier) // Configures a new claim, called "uuid"
+            ->withClaim('uid', $user_identifier) // Configures a new claim, called "uid"
             ->getToken($this->config->signer(), $this->config->signingKey()); // Builds a new token
 
-        return $token->toString();
+        return new IssuedToken($token->toString(), $unique_id, $expires_at);
     }
 
     /**

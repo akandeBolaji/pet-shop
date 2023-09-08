@@ -2,7 +2,8 @@
 
 namespace App\Providers;
 
-use App\Extensions\LcobucciJWT;
+use App\Libraries\JWTLibraryClient;
+use App\Libraries\LcobucciJWT;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

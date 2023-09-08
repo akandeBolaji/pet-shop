@@ -43,4 +43,47 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+        /**
+     * Indicate that the user's is_marketing field is true.
+     *
+     * @return static
+     */
+    public function marketing()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'is_marketing' => true,
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the user is admin.
+     *
+     * @return static
+     */
+    public function admin()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'is_admin' => true,
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the user's is_marketing field is true and is admin.
+     *
+     * @return static
+     */
+    public function admin_marketing()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'is_marketing' => true,
+                'is_admin' => true,
+            ];
+        });
+    }
 }

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Brand>
@@ -14,12 +15,13 @@ class BrandFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
+    public function definition()
     {
+        $title = fake()->sentence(rand(1, 4));
+
         return [
-            'uuid' => (string) Str::uuid(),
-            'title' => $this->faker->company,
-            'slug' => $this->faker->slug,
+            'title' => $title,
+            'slug' => Str::slug($title),
         ];
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\UserController;
 
@@ -54,6 +55,18 @@ Route::group(['prefix' => 'v1/main'], function () {
     Route::get('promotions', [MainPageController::class, 'promotions'])->name('promotions');
     Route::get('blog', [MainPageController::class, 'posts'])->name('blog');
     Route::get('blog/{post:uuid}', [MainPageController::class, 'showPost'])->name('blog.show');
+});
+
+/* Brands Endpoints */
+Route::group(['prefix' => 'brand'], function () {
+    Route::get('/', [BrandsController::class, 'index'])->name('brands');
+    Route::get('{brand:uuid}', [BrandsController::class, 'show'])->name('brand.show');
+
+    Route::group(['middleware' => ['auth:api', 'admin']], function () {
+        Route::post('create', [BrandsController::class, 'store'])->name('brand.create');
+        Route::put('{brand:uuid}', [BrandsController::class, 'update'])->name('brand.update');
+        Route::delete('{brand:uuid}', [BrandsController::class, 'destroy'])->name('brand.delete');
+    });
 });
 
  

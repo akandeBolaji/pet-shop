@@ -82,4 +82,54 @@ class UserTest extends TestCase
         $response = $this->get(route('user.logout'), $this->getUserAuthHeaders());
         $response->assertStatus(200);
     }
+
+    public function test_user_can_view_own_profile()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->get(route('user.profile'), $this->getUserAuthHeaders($user));
+        $response->assertStatus(Response::HTTP_OK);
+
+        //check if the email matches
+        $content = json_decode($response->content(), true);
+        $email = $content['data']['email'];
+        $this->assertEquals($user->email, $email);
+    }
+
+    public function test_user_can_edit_own_profile()
+    {
+        $user = User::factory()->create();
+        $user_arr = $user->toArray();
+
+        $updated = User::factory()->marketing()->make()->toArray();
+        $updated['is_marketing'] = 'is_marketing';
+        $updated['password'] = 'password';
+        $updated['password_confirmation'] = 'password';
+        $updated = array_merge($user_arr, $updated);
+
+        $response = $this->put(route('user.update'), $updated, $this->getUserAuthHeaders($user));
+        $response->assertStatus(Response::HTTP_OK);
+
+        $user->refresh();
+        $this->assertEquals($user->first_name, $updated['first_name']);
+        $this->assertEquals($user->last_name, $updated['last_name']);
+        $this->assertEquals($user->email, $updated['email']);
+        $this->assertEquals($user->phone_number, $updated['phone_number']);
+        $this->assertEquals($user->avatar, $updated['avatar']);
+        $this->assertEquals($user->address, $updated['address']);
+        $this->assertEquals($user->is_marketing, 1);
+    }
+
+    public function test_user_can_delete_own_account()
+    {
+        $headers = $this->getUserAuthHeaders();
+        $response = $this->delete(route('user.delete'), [], $headers);
+        $response->assertStatus(Response::HTTP_OK);
+
+        $this->refreshApplication();
+
+        //test if account is still assessible
+        $response = $this->get(route('user.profile'), $headers);
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+    }
 }

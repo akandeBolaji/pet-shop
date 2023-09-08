@@ -41,6 +41,10 @@ Route::group(['prefix' => 'user'], function () {
 
     Route::group(['middleware' => ['auth:api', 'user']], function () {
         Route::get('logout', [UserController::class, 'logout'])->name('user.logout');
+        Route::get('/', [UserController::class, 'profile'])->name('user.profile');
+        Route::get('/orders', [UserController::class, 'orders'])->name('user.orders');
+        Route::delete('/', [UserController::class, 'delete'])->name('user.delete');
+        Route::put('/edit', [UserController::class, 'update'])->name('user.update');
     });
 });
 

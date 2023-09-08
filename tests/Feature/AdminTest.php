@@ -139,5 +139,33 @@ class AdminTest extends TestCase
         //fetch the user afresh from the db
         $user = User::find($user->id);
         $this->assertNull($user);
+    } 
+
+    public function test_admin_account_cannot_be_edited()
+    {
+        $user = User::factory()->admin()->create();
+        $user_arr = $user->toArray();
+
+        $updated = User::factory()->admin_marketing()->make()->toArray();
+        $updated['is_marketing'] = 'is_marketing';
+        $updated['password'] = 'password';
+        $updated['password_confirmation'] = 'password';
+        $updated = array_merge($user_arr, $updated);
+
+        $response = $this->put(route('user.update'), $updated, $this->getAdminAuthHeaders($user));
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+
+        $user->refresh();
+        $this->assertNotEquals($user->first_name, $updated['first_name']);
+    }
+
+    public function test_admin_account_cannot_be_deleted()
+    {
+        $response = $this->delete(route('user.delete'), [], $this->getAdminAuthHeaders());
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED)
+            ->assertJson( fn (AssertableJson $json) =>
+                $json->where('success', 0)
+                    ->etc()
+            );
     }
 }

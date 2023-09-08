@@ -7,7 +7,7 @@ use App\Models\User;
 use Auth;
 use Exception;
 use Illuminate\Support\Facades\Hash;
-
+ 
 class UserService
 {
     /**
@@ -20,6 +20,20 @@ class UserService
     public function registerAdmin(array $data): UserResource
     {
         $user = $this->create($data, true);
+
+        return new UserResource($user);
+    }
+
+    /**
+     * Register new user.
+     *
+     * @param array $data
+     * @return UserResource
+     * @throws Exception
+     */
+    public function registerUser(array $data): UserResource
+    {
+        $user = $this->create($data);
 
         return new UserResource($user);
     }
@@ -56,6 +70,19 @@ class UserService
     public function adminLogin(array $credentials): ?string
     {
         $credentials['is_admin'] = true;
+
+        return Auth::attempt($credentials);
+    }
+
+    /**
+     * Validates user credentials and returns access token.
+     *
+     * @param array $credentials
+     * @return string|null
+     */
+    public function userLogin(array $credentials): ?string
+    {
+        $credentials['is_admin'] = false;
 
         return Auth::attempt($credentials);
     }

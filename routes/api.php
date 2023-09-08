@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,16 @@ Route::group(['prefix' => 'v1/admin'], function () {
         Route::post('user-listing', [AdminController::class, 'userListing'])->name('admin.user-listing');
         Route::put('user-edit/{user:uuid}', [AdminController::class, 'userEdit'])->name('admin.user-update');
         Route::delete('user-delete/{user:uuid}', [AdminController::class, 'userDelete'])->name('admin.user-delete');
+    });
+});
+
+/* User Endpoints */
+Route::group(['prefix' => 'user'], function () {
+    Route::post('create', [UserController::class, 'register'])->name('user.create');
+    Route::post('login', [UserController::class, 'login'])->name('user.login');
+
+    Route::group(['middleware' => ['auth:api', 'user']], function () {
+        Route::get('logout', [UserController::class, 'logout'])->name('user.logout');
     });
 });
 

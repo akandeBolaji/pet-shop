@@ -56,7 +56,7 @@ class FileTest extends TestCase
 
     public function tearDown(): void
     {
-        Storage::deleteDirectory('public/pet-shop');
+        Storage::disk('public')->deleteDirectory('pet-shop');
 
         parent::tearDown();
     }

@@ -8,6 +8,7 @@ use App\Models\File;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
 class FilesController extends Controller
@@ -44,29 +45,29 @@ class FilesController extends Controller
      */
     public function store(FileRequest $request): JsonResponse
     {
-        /** @var UploadedFile $uploaded_file */
         $uploaded_file = $request->file('file');
 
-        $path = public_path('pet-shop');
-        $filename = Str::random(40).'.'.$uploaded_file->getClientOriginalExtension();
+        $filename = 'pet-shop/' . Str::random(40) . '.' . $uploaded_file->getClientOriginalExtension();
 
-        $file = $uploaded_file->move($path, $filename);
+        // Use Storage facade to put the file
+        $path = Storage::disk('public')->putFileAs('', $uploaded_file, $filename);
+        $file = Storage::disk('public')->get($filename);
 
         $record = new File([
             'name' => Str::random(16),
-            'type' => $file->getMimeType(),
-            'size' => round($file->getSize() / 1024).' KB',
-            'path' => $file->getPath(),
+            'type' => $uploaded_file->getMimeType(),
+            'size' => round(Storage::size($filename) / 1024) . ' KB',
+            'path' => $path,
         ]);
 
         if ($record->save()) {
             return $this->jsonResponse(data: new FileResource($record));
         }
 
-        //delete the file
-        unlink($file);
+        // Delete the file if saving the record fails
+        Storage::disk('public')->delete($filename);
 
-        return $this->jsonResponse(Response::HTTP_UNPROCESSABLE_ENTITY);
+        return $this->jsonResponse(Response::HTTP_UNPROCESSABLE_ENTITY, 'Failed to store file data.');
     }
 
     /**

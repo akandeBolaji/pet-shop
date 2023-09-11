@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BrandsController;
+use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\FilesController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\OrdersController;
@@ -130,5 +131,17 @@ Route::group(['prefix' => 'v1/order', 'middleware' => ['auth:api']], function ()
     Route::group(['middleware' => 'admin'], function () {
         Route::put('{order:uuid}', [OrdersController::class, 'update'])->name('order.update');
         Route::delete('{order:uuid}', [OrdersController::class, 'destroy'])->name('order.delete');
+    });
+});
+
+/* Categories endpoints */
+Route::get('v1/categories', [CategoriesController::class, 'index'])->name('categories');
+Route::group(['prefix' => 'v1/category'], function () {
+    Route::get('{category:uuid}', [CategoriesController::class, 'show'])->name('category.show');
+
+    Route::group(['middleware' => ['auth:api', 'admin']], function () {
+        Route::post('create', [CategoriesController::class, 'store'])->name('category.create');
+        Route::put('{category:uuid}', [CategoriesController::class, 'update'])->name('category.update');
+        Route::delete('{category:uuid}', [CategoriesController::class, 'destroy'])->name('category.delete');
     });
 });

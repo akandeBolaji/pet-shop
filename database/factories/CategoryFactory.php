@@ -2,19 +2,23 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-
+ 
 class CategoryFactory extends Factory
 {
-    public function definition(): array
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition()
     {
-        $name = $this->faker->unique()->word;
+        $title = fake()->sentence(rand(1, 4));
+
         return [
-            'uuid' => (string) Str::uuid(),
-            'title' => $this->faker->word,
-            'slug' => $this->faker->slug,
+            'title' => $title,
+            'slug' => Str::slug($title),
         ];
     }
 }

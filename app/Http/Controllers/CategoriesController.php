@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CategoryRequest;
-use App\Http\Requests\FilterRequest;
-use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Support\Str;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Http\Requests\FilterRequest;
+use App\Http\Requests\CategoryRequest;
+use App\Http\Resources\CategoryResource;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class CategoriesController extends Controller
 {
@@ -54,10 +54,8 @@ class CategoriesController extends Controller
      * )
      *
      * Display a listing of the resource.
-     *
-     * @return JsonResponse
      */
-    public function index(FilterRequest $request)
+    public function index(FilterRequest $request): JsonResponse
     {
         $filter_params = $request->filterParams();
         $data = CategoryResource::collection(Category::getAll($filter_params))->resource;
@@ -91,11 +89,8 @@ class CategoriesController extends Controller
      * )
      *
      * Store a newly created resource in storage.
-     *
-     * @param CategoryRequest $request
-     * @return JsonResponse
      */
-    public function store(CategoryRequest $request)
+    public function store(CategoryRequest $request): JsonResponse
     {
         $inputs = $request->validFields();
         $inputs['slug'] = Str::slug(strval($request->title));
@@ -124,11 +119,8 @@ class CategoriesController extends Controller
      * )
      *
      * Display the specified resource.
-     *
-     * @param Category $category
-     * @return JsonResponse
      */
-    public function show(Category $category)
+    public function show(Category $category): JsonResponse
     {
         return $this->jsonResponse(data: new CategoryResource($category));
     }
@@ -164,12 +156,8 @@ class CategoriesController extends Controller
      * )
      *
      * Update the specified resource in storage.
-     *
-     * @param CategoryRequest $request
-     * @param Category $category
-     * @return JsonResponse
      */
-    public function update(CategoryRequest $request, Category $category)
+    public function update(CategoryRequest $request, Category $category): JsonResponse
     {
         $inputs = $request->validFields();
         $inputs['slug'] = Str::slug(strval($request->title));
@@ -201,11 +189,8 @@ class CategoriesController extends Controller
      * )
      *
      * Remove the specified category from storage.
-     *
-     * @param Category $category
-     * @return JsonResponse
      */
-    public function destroy(Category $category)
+    public function destroy(Category $category): JsonResponse
     {
         if ($category->delete()) {
             return $this->jsonResponse();

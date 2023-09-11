@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class JwtToken extends Model
 {
@@ -32,8 +32,6 @@ class JwtToken extends Model
 
     /**
      * Makes the token invalid when the user logs out.
-     *
-     * @return bool
      */
     public function invalidate(): bool
     {
@@ -44,8 +42,6 @@ class JwtToken extends Model
 
     /**
      * Checks the validity status of the token.
-     *
-     * @return bool
      */
     public function isValid(): bool
     {
@@ -55,10 +51,8 @@ class JwtToken extends Model
 
     /**
      * Update last time used
-     *
-     * @return bool
      */
-    public function saveLastUsedTime()
+    public function saveLastUsedTime(): bool
     {
         $this->last_used_at = now();
         return $this->save();

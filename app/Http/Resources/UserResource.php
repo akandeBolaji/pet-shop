@@ -9,18 +9,15 @@ class UserResource extends JsonResource
 {
     /**
      * The user access token.
-     *
-     * @var string|null
      */
-    public $token;
+    public ?string $token = null;
 
     /**
      * Transform the resource into an array.
      *
-     * @param  Request  $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray(Request $request): array
     {
         return [
             'uuid' => $this->uuid,

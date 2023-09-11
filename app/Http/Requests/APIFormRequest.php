@@ -3,10 +3,10 @@
 namespace App\Http\Requests;
 
 use App\Traits\HandlesResponse;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 abstract class APIFormRequest extends FormRequest
 {
@@ -14,22 +14,20 @@ abstract class APIFormRequest extends FormRequest
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    abstract public function authorize();
+    abstract public function authorize(): bool;
 
     /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, mixed>
      */
-    abstract public function rules();
+    abstract public function rules(): array;
 
     /**
      * Customize the response when validation fails.
      */
-    protected function failedValidation(Validator $validator)
+    protected function failedValidation(Validator $validator): void
     {
         throw new HttpResponseException(
             $this->jsonResponse(

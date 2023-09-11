@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OrderStatus;
 use App\Http\Requests\FilterRequest;
 use App\Http\Requests\OrderStatusRequest;
 use App\Http\Resources\OrderStatusResource;
-use App\Models\OrderStatus;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class OrderStatusesController extends Controller
 {
@@ -52,10 +52,8 @@ class OrderStatusesController extends Controller
      *      @OA\Response(response=500, description="Internal Server Error")
      * )
      * Display a listing of the resource.
-     *
-     * @return JsonResponse
      */
-    public function index(FilterRequest $request)
+    public function index(FilterRequest $request): JsonResponse
     {
         $filter_params = $request->filterParams();
         $data = OrderStatusResource::collection(OrderStatus::getAll($filter_params))->resource;
@@ -89,11 +87,8 @@ class OrderStatusesController extends Controller
      * )
      *
      * Store a newly created resource in storage.
-     *
-     * @param OrderStatusRequest $request
-     * @return JsonResponse
      */
-    public function store(OrderStatusRequest $request)
+    public function store(OrderStatusRequest $request): JsonResponse
     {
         $order_status = OrderStatus::create($request->validFields());
 
@@ -118,11 +113,8 @@ class OrderStatusesController extends Controller
      *      @OA\Response(response=500, description="Internal Server Error")
      * )
      * Display the specified resource.
-     *
-     * @param OrderStatus $order_status
-     * @return JsonResponse
      */
-    public function show(OrderStatus $order_status)
+    public function show(OrderStatus $order_status): JsonResponse
     {
         return $this->jsonResponse(data: new OrderStatusResource($order_status));
     }
@@ -157,12 +149,8 @@ class OrderStatusesController extends Controller
      *      @OA\Response(response=500, description="Internal Server Error")
      * )
      * Update the specified resource in storage.
-     *
-     * @param OrderStatusRequest $request
-     * @param OrderStatus $order_status
-     * @return JsonResponse
      */
-    public function update(OrderStatusRequest $request, OrderStatus $order_status)
+    public function update(OrderStatusRequest $request, OrderStatus $order_status): JsonResponse
     {
         if ($order_status->update($request->validFields())) {
             return $this->jsonResponse(data: $order_status);
@@ -190,11 +178,8 @@ class OrderStatusesController extends Controller
      *      @OA\Response(response=500, description="Internal Server Error")
      * )
      * Remove the specified resource from storage.
-     *
-     * @param OrderStatus $order_status
-     * @return JsonResponse
      */
-    public function destroy(OrderStatus $order_status)
+    public function destroy(OrderStatus $order_status): JsonResponse
     {
         if ($order_status->delete()) {
             return $this->jsonResponse();

@@ -6,10 +6,8 @@ class LoginRequest extends APIFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -19,7 +17,7 @@ class LoginRequest extends APIFormRequest
      *
      * @return array<string, string>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'email' => 'required|email',

@@ -6,18 +6,14 @@ class PaymentRequest extends APIFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
     /**
      * Convert all json fields to arrays.
-     *
-     * @return void
      */
     protected function prepareForValidation(): void
     {
@@ -31,7 +27,7 @@ class PaymentRequest extends APIFormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'type' => 'required|string|in:credit_card,bank_transfer,cash_on_delivery',

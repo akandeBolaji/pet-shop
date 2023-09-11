@@ -10,6 +10,8 @@ php artisan l5-swagger:generate
 
 ./laravel-docker.sh l5-swagger:generate
 
+./laravel-docker.sh insights
+
 
 docker-compose down
 docker-compose up -d --build

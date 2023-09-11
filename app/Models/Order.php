@@ -5,11 +5,11 @@ namespace App\Models;
 use App\DTOs\FilterParams;
 use App\Traits\Filterable;
 use App\Traits\HasUUIDField;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
  * App\Models\Order.
@@ -101,8 +101,6 @@ class Order extends Model
     /**
      * Get all the orders.
      *
-     * @param FilterParams $filter_params
-     * @return LengthAwarePaginator
      * @throws \Exception
      */
     public static function getAll(FilterParams $filter_params): LengthAwarePaginator

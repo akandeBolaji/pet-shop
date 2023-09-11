@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
-use App\Http\Requests\UpdateUserRequest;
-use App\Http\Services\UserService;
 use Auth;
 use Exception;
-use App\Http\Resources\UserResource;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use App\Http\Services\UserService;
+use App\Http\Requests\LoginRequest;
+use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Gate;
+use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\UpdateUserRequest;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class UserController extends Controller
 {
@@ -62,11 +62,9 @@ class UserController extends Controller
      *
      * Register new user and return user data
      *
-     * @param RegisterRequest $request
-     * @return JsonResponse
      * @throws Exception
      */
-    public function register(RegisterRequest $request)
+    public function register(RegisterRequest $request): JsonResponse
     {
         $user_resource = $this->userService->registerUser($request->validFields());
 
@@ -103,11 +101,9 @@ class UserController extends Controller
      *
      * User login
      *
-     * @param LoginRequest $request
-     * @return JsonResponse
      * @throws Exception
      */
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request): JsonResponse
     {
         $token = $this->userService->userLogin($request->only('email', 'password'));
         if ($token !== null) {
@@ -132,10 +128,8 @@ class UserController extends Controller
      * )
      *
      * Logs current user out
-     *
-     * @return JsonResponse
      */
-    public function logout()
+    public function logout(): JsonResponse
     {
         if (Auth::logout()) {
             return $this->jsonResponse();
@@ -144,7 +138,7 @@ class UserController extends Controller
         return $this->jsonResponse(status_code: Response::HTTP_UNPROCESSABLE_ENTITY, error: __('auth.logout_error'));
     }
 
-     /**
+    /**
      * @OA\Get(
      *      path="/api/v1/user",
      *      operationId="ViewUser",
@@ -159,11 +153,8 @@ class UserController extends Controller
      * )
      *
      * Returns user info
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
-    public function profile(Request $request)
+    public function profile(Request $request): JsonResponse
     {
         return $this->jsonResponse(data: new UserResource($request->user()));
     }
@@ -209,11 +200,9 @@ class UserController extends Controller
      *
      * Updates user record
      *
-     * @param UpdateUserRequest $request
-     * @return JsonResponse
      * @throws AuthorizationException
      */
-    public function update(UpdateUserRequest $request)
+    public function update(UpdateUserRequest $request): JsonResponse
     {
         $user = $request->user();
 
@@ -249,11 +238,9 @@ class UserController extends Controller
      *
      * Delete user record
      *
-     * @param Request $request
-     * @return JsonResponse
      * @throws AuthorizationException
      */
-    public function delete(Request $request)
+    public function delete(Request $request): JsonResponse
     {
         $user = $request->user();
 

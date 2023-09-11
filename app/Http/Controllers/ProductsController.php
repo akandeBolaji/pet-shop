@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Http\Requests\FilterRequest;
 use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
-use App\Models\Product;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ProductsController extends Controller
 {
@@ -53,10 +53,9 @@ class ProductsController extends Controller
      * )
      * Display a listing of the resource.
      *
-     * @return JsonResponse
      * @throws \Exception
      */
-    public function index(FilterRequest $request)
+    public function index(FilterRequest $request): JsonResponse
     {
         $filter_params = $request->filterParams();
         $data = ProductResource::collection(Product::getAll($filter_params))->resource;
@@ -98,11 +97,8 @@ class ProductsController extends Controller
      * )
      *
      * Store a newly created resource in storage.
-     *
-     * @param ProductRequest $request
-     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(ProductRequest $request)
+    public function store(ProductRequest $request): \Illuminate\Http\JsonResponse
     {
         $product = Product::create($request->validFields());
 
@@ -128,11 +124,8 @@ class ProductsController extends Controller
      * )
      *
      * Display the specified product.
-     *
-     * @param Product $product
-     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Product $product)
+    public function show(Product $product): \Illuminate\Http\JsonResponse
     {
         return $this->jsonResponse(data: new ProductResource($product));
     }
@@ -176,12 +169,8 @@ class ProductsController extends Controller
      * )
      *
      * Update the specified resource in storage.
-     *
-     * @param ProductRequest $request
-     * @param Product $product
-     * @return JsonResponse
      */
-    public function update(ProductRequest $request, Product $product)
+    public function update(ProductRequest $request, Product $product): JsonResponse
     {
         if ($product->update($request->validFields())) {
             return $this->jsonResponse(data: $product);
@@ -210,11 +199,8 @@ class ProductsController extends Controller
      * )
      *
      * Remove the specified product from storage.
-     *
-     * @param Product $product
-     * @return JsonResponse
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product): JsonResponse
     {
         if ($product->delete()) {
             return $this->jsonResponse();

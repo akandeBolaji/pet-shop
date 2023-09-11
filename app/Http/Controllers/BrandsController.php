@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use App\Models\Brand;
+use Illuminate\Support\Str;
 use App\Http\Requests\BrandRequest;
 use App\Http\Requests\FilterRequest;
 use App\Http\Resources\BrandResource;
-use App\Models\Brand;
-use Exception;
-use Illuminate\Support\Str;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class BrandsController extends Controller
 {
@@ -56,8 +56,6 @@ class BrandsController extends Controller
      *
      * Display a listing of the resource.
      *
-     * @param FilterRequest $request
-     * @return JsonResponse
      * @throws Exception
      */
     public function index(FilterRequest $request): JsonResponse
@@ -94,9 +92,6 @@ class BrandsController extends Controller
      * )
      *
      * Store a newly created brand in storage.
-     *
-     * @param BrandRequest $request
-     * @return JsonResponse
      */
     public function store(BrandRequest $request): JsonResponse
     {
@@ -127,9 +122,6 @@ class BrandsController extends Controller
      * )
      *
      * Display the specified resource.
-     *
-     * @param Brand $brand
-     * @return JsonResponse
      */
     public function show(Brand $brand): JsonResponse
     {
@@ -167,10 +159,6 @@ class BrandsController extends Controller
      * )
      *
      * Update the specified resource in storage.
-     *
-     * @param BrandRequest $request
-     * @param Brand $brand
-     * @return JsonResponse
      */
     public function update(BrandRequest $request, Brand $brand): JsonResponse
     {
@@ -203,11 +191,8 @@ class BrandsController extends Controller
      *      @OA\Response(response=500, description="Internal Server Error")
      * )
      * Remove the specified resource from storage.
-     *
-     * @param Brand $brand
-     * @return JsonResponse
      */
-    public function destroy(Brand $brand)
+    public function destroy(Brand $brand): JsonResponse
     {
         if ($brand->delete()) {
             return $this->jsonResponse();

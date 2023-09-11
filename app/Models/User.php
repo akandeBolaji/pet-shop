@@ -6,6 +6,7 @@ use App\DTOs\FilterParams;
 use App\Traits\Filterable;
 use App\Traits\HasJwtTokens;
 
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -152,7 +153,7 @@ class User extends Authenticatable
      */
     public function loggedIn()
     {
-        $this->last_login_at = now();
+        $this->last_login_at = Carbon::now();
         $this->save();
     }
  

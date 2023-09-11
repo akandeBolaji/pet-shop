@@ -2,11 +2,11 @@
 
 namespace App\Traits;
 
-use App\DTOs\FilterParams;
 use DateTime;
 use Exception;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use App\DTOs\FilterParams;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 trait Filterable
 {
@@ -52,9 +52,7 @@ trait Filterable
     /**
      * Get all database records by building the necessary query and returning paginated records.
      *
-     * @param FilterParams $filter_params
      * @param array $filterables
-     * @return LengthAwarePaginator
      * @throws Exception
      */
     private static function getRecords(FilterParams $filter_params, array $filterables = []): LengthAwarePaginator
@@ -78,10 +76,7 @@ trait Filterable
     /**
      * Set the instance parameters.
      *
-     * @param self $instance
-     * @param FilterParams $filter_params
      * @param array $filterables
-     * @return void
      */
     private function setInstanceParams(self $instance, FilterParams $filter_params, array $filterables): void
     {
@@ -127,8 +122,6 @@ trait Filterable
 
     /**
      * Add sorting to the query builder.
-     *
-     * @return void
      */
     protected function sortQuery(): void
     {
@@ -140,8 +133,6 @@ trait Filterable
 
     /**
      * Allow models to add additional query with the implementation of this method.
-     *
-     * @return void
      */
     protected function additionalQueryFromModel(): void
     {
@@ -151,8 +142,6 @@ trait Filterable
     /**
      * Get all db records.
      *
-     * @param FilterParams $filter_params
-     * @return LengthAwarePaginator
      * @throws Exception
      */
     public static function getAll(FilterParams $filter_params): LengthAwarePaginator

@@ -8,10 +8,8 @@ class BrandRequest extends APIFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,7 +19,7 @@ class BrandRequest extends APIFormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         if (isset($this->brand)) {
             return [

@@ -2,36 +2,28 @@
 
 namespace App\Http\Services;
 
-use App\DTOs\FilterParams;
-use App\Http\Resources\OrderResource;
-use App\Models\Order;
-use App\Models\OrderStatus;
-use App\Models\Product;
-use App\Models\User;
 use DB;
 use Exception;
+use Throwable;
+use App\Models\User;
+use App\Models\Order;
+use App\Models\Product;
+use App\DTOs\FilterParams;
+use App\Models\OrderStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Throwable;
+use App\Http\Resources\OrderResource;
 
 class OrderService
 {
-    /**
-     * @var int
-     */
-    private $free_delivery_threshold = 500;
+    private int $free_delivery_threshold = 500;
 
-    /**
-     * @var int
-     */
-    private $delivery_fee = 15;
+    private int $delivery_fee = 15;
 
     /**
      * Currently logged in user.
-     *
-     * @var User
      */
-    private $user;
+    private User $user;
 
     /**
      * Constructor.
@@ -44,8 +36,6 @@ class OrderService
     }
 
     /**
-     * @param FilterParams $filter_params
-     * @return mixed
      * @throws Exception
      */
     public function getAll(FilterParams $filter_params): mixed
@@ -62,7 +52,6 @@ class OrderService
      * Creates a new order record.
      *
      * @param array $data
-     * @return Order|null
      */
     public function create(array $data): ?Order
     {
@@ -94,7 +83,6 @@ class OrderService
      * Calculate the total amount of the products and populate the products with product name and price.
      *
      * @param array $products
-     * @return float
      */
     private function calculateAmount(array &$products): float
     {
@@ -119,9 +107,7 @@ class OrderService
     /**
      * Update order record.
      *
-     * @param Order $order
      * @param array $data
-     * @return bool
      */
     public function update(Order $order, array $data): bool
     {
@@ -135,11 +121,9 @@ class OrderService
     /**
      * Delete order record and the payment attached to it.
      *
-     * @param Order $order
      * @throws Throwable
-     * @return bool
      */
-    public function delete($order): bool
+    public function delete(Order $order): bool
     {
         return (bool) DB::transaction(function () use ($order) {
             //delete the payment

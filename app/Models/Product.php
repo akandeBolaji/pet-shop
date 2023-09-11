@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
+use DB;
+use Exception;
 use App\DTOs\FilterParams;
 use App\Traits\Filterable;
 use App\Traits\HasUUIDField;
-use DB;
-use Exception;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
  * App\Models\Product.
@@ -76,8 +76,6 @@ class Product extends Model
 
     /**
      * Get the associated brand to this product.
-     *
-     * @return Brand|null
      */
     public function getBrand(): ?Brand
     {
@@ -86,8 +84,6 @@ class Product extends Model
 
     /**
      * Get the associated brand to this product.
-     *
-     * @return File|null
      */
     public function getImageFile(): ?File
     {
@@ -97,8 +93,6 @@ class Product extends Model
     /**
      * Get all db records.
      *
-     * @param FilterParams $filter_params
-     * @return LengthAwarePaginator
      * @throws Exception
      */
     public static function getAll(FilterParams $filter_params): LengthAwarePaginator
@@ -108,8 +102,6 @@ class Product extends Model
 
     /**
      * Extend the query by adding queries to filter by brand and category.
-     *
-     * @return void
      */
     protected function additionalQueryFromModel(): void
     {

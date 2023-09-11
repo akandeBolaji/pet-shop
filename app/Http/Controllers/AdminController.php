@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use Exception;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use App\Http\Services\UserService;
 use App\Http\Requests\LoginRequest;
+use App\Http\Resources\UserResource;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\UserFilterRequest;
-use App\Http\Services\UserService;
-use App\Models\User;
-use App\Http\Resources\UserResource;
-use Auth;
-use Exception;
-use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminController extends Controller
@@ -61,8 +61,6 @@ class AdminController extends Controller
      *
      * Register new user and return user data
      *
-     * @param RegisterRequest $request
-     * @return JsonResponse
      * @throws Exception
      */
     public function register(RegisterRequest $request): JsonResponse
@@ -102,8 +100,6 @@ class AdminController extends Controller
      *
      * Admin login
      *
-     * @param LoginRequest $request
-     * @return JsonResponse
      * @throws Exception
      */
     public function login(LoginRequest $request): JsonResponse
@@ -130,10 +126,8 @@ class AdminController extends Controller
      *      @OA\Response(response=500, description="Internal Server Error")
      * )
      * Logs current user out
-     *
-     * @return JsonResponse
      */
-    public function logout()
+    public function logout(): JsonResponse
     {
         if (Auth::logout()) {
             return $this->jsonResponse();
@@ -141,7 +135,7 @@ class AdminController extends Controller
 
         return $this->jsonResponse(status_code:Response::HTTP_UNPROCESSABLE_ENTITY, error:__('auth.logout_error'));
     }
-    
+
     /**
      * @OA\Post(
      *      path="/api/v1/admin/user-listing",
@@ -227,11 +221,9 @@ class AdminController extends Controller
      * )
      * Get a paginated list of users
      *
-     * @param UserFilterRequest $request
-     * @return JsonResponse
      * @throws \Exception
      */
-    public function userListing(UserFilterRequest $request)
+    public function userListing(UserFilterRequest $request): JsonResponse
     {
         $filter_params = $request->filterParams();
         $data = UserResource::collection(User::getUsers($filter_params))->resource;
@@ -284,12 +276,8 @@ class AdminController extends Controller
      * )
      *
      * Edit user account
-     *
-     * @param User $user
-     * @param UpdateUserRequest $request
-     * @return JsonResponse
      */
-    public function userEdit(User $user, UpdateUserRequest $request)
+    public function userEdit(User $user, UpdateUserRequest $request): JsonResponse
     {
         if ($user->isAdmin()) {
             return $this->jsonResponse(
@@ -327,11 +315,8 @@ class AdminController extends Controller
      *      @OA\Response(response=500, description="Internal Server Error")
      * )
      * Delete user account
-     *
-     * @param User $user
-     * @return JsonResponse
      */
-    public function userDelete(User $user)
+    public function userDelete(User $user): JsonResponse
     {
         if ($user->isAdmin()) {
             return $this->jsonResponse(

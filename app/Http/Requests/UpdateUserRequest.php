@@ -10,10 +10,8 @@ class UpdateUserRequest extends APIFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -23,7 +21,7 @@ class UpdateUserRequest extends APIFormRequest
      *
      * @return array<string, array<int, Rules\Password|Rules\Unique|string|null>|string>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'first_name' => 'required|string|max:255',

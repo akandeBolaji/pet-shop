@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Payment;
 use App\Http\Requests\FilterRequest;
 use App\Http\Requests\PaymentRequest;
 use App\Http\Resources\PaymentResource;
-use App\Models\Payment;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class PaymentsController extends Controller
 {
@@ -53,10 +53,8 @@ class PaymentsController extends Controller
      *      @OA\Response(response=500, description="Internal Server Error")
      * )
      * Display a listing of the resource.
-     *
-     * @return JsonResponse
      */
-    public function index(FilterRequest $request)
+    public function index(FilterRequest $request): JsonResponse
     {
         $filter_params = $request->filterParams();
         $data = PaymentResource::collection(Payment::getAll($filter_params))->resource;
@@ -96,11 +94,8 @@ class PaymentsController extends Controller
      * )
      *
      * Store a newly created resource in storage.
-     *
-     * @param PaymentRequest $request
-     * @return JsonResponse
      */
-    public function store(PaymentRequest $request)
+    public function store(PaymentRequest $request): JsonResponse
     {
         $payment = Payment::create($request->validFields());
 
@@ -126,11 +121,8 @@ class PaymentsController extends Controller
      *      @OA\Response(response=500, description="Internal Server Error")
      * )
      * Display the specified resource.
-     *
-     * @param Payment $payment
-     * @return JsonResponse
      */
-    public function show(Payment $payment)
+    public function show(Payment $payment): JsonResponse
     {
         return $this->jsonResponse(data: new PaymentResource($payment));
     }
@@ -172,12 +164,8 @@ class PaymentsController extends Controller
      * )
      *
      * Update the specified resource in storage.
-     *
-     * @param PaymentRequest $request
-     * @param Payment $payment
-     * @return JsonResponse
      */
-    public function update(PaymentRequest $request, Payment $payment)
+    public function update(PaymentRequest $request, Payment $payment): JsonResponse
     {
         if ($payment->update($request->validFields())) {
             return $this->jsonResponse(data: new PaymentResource($payment));
@@ -205,11 +193,8 @@ class PaymentsController extends Controller
      *      @OA\Response(response=500, description="Internal Server Error")
      * )
      * Remove the specified resource from storage.
-     *
-     * @param Payment $payment
-     * @return JsonResponse
      */
-    public function destroy(Payment $payment)
+    public function destroy(Payment $payment): JsonResponse
     {
         if ($payment->delete()) {
             return $this->jsonResponse();

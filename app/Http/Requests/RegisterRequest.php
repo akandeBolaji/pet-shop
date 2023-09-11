@@ -8,10 +8,8 @@ class RegisterRequest extends APIFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,7 +19,7 @@ class RegisterRequest extends APIFormRequest
      *
      * @return array<string, array<int, Password|string|null>|string>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'first_name' => 'required|string|max:255',

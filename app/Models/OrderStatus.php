@@ -4,9 +4,9 @@ namespace App\Models;
 
 use App\Traits\Filterable;
 use App\Traits\HasUUIDField;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * App\Models\OrderStatus.
@@ -50,9 +50,6 @@ class OrderStatus extends Model
 
     /**
      * Get order status by uuid.
-     *
-     * @param string $order_status_uuid
-     * @return ?self
      */
     public static function getStatus(string $order_status_uuid): ?self
     {
@@ -61,9 +58,6 @@ class OrderStatus extends Model
 
     /**
      * Check if status is shipped.
-     *
-     * @param string $uuid
-     * @return bool
      */
     public static function isShippedStatus(string $uuid): bool
     {

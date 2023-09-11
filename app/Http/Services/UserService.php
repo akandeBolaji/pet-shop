@@ -2,19 +2,18 @@
 
 namespace App\Http\Services;
 
-use App\Http\Resources\UserResource;
-use App\Models\User;
 use Auth;
 use Exception;
+use App\Models\User;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
- 
+
 class UserService
 {
     /**
      * Register new admin.
      *
      * @param array $data
-     * @return UserResource
      * @throws Exception
      */
     public function registerAdmin(array $data): UserResource
@@ -28,7 +27,6 @@ class UserService
      * Register new user.
      *
      * @param array $data
-     * @return UserResource
      * @throws Exception
      */
     public function registerUser(array $data): UserResource
@@ -42,8 +40,6 @@ class UserService
      * Create a user record.
      *
      * @param array $data
-     * @param bool $is_admin
-     * @return User
      *@throws Exception
      */
     private function create(array $data, bool $is_admin = false): User
@@ -65,7 +61,6 @@ class UserService
      * Validates admin credentials and returns access token.
      *
      * @param array $credentials
-     * @return string|null
      */
     public function adminLogin(array $credentials): ?string
     {
@@ -78,7 +73,6 @@ class UserService
      * Validates user credentials and returns access token.
      *
      * @param array $credentials
-     * @return string|null
      */
     public function userLogin(array $credentials): ?string
     {
@@ -90,9 +84,7 @@ class UserService
     /**
      * Updates user record.
      *
-     * @param User $user
      * @param array $data
-     * @return bool
      */
     public function update(User $user, array $data): bool
     {
@@ -103,13 +95,9 @@ class UserService
 
     /**
      * Deletes user record.
-     *
-     * @param User $user
-     * @return bool
      */
     public function delete(User $user): bool
     {
         return (bool) $user->delete();
     }
 }
- 

@@ -3,7 +3,6 @@
 namespace App\Traits;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Symfony\Component\HttpFoundation\Response;
 
 trait HandlesResponse
@@ -11,12 +10,8 @@ trait HandlesResponse
     /**
      * Prepare json response.
      *
-     * @param int $status_code
-     * @param mixed $data
-     * @param mixed|null $error
      * @param array $errors
      * @param array $trace
-     * @return JsonResponse
      */
     protected function jsonResponse(
         int $status_code = Response::HTTP_OK,

@@ -8,18 +8,14 @@ class ProductRequest extends APIFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
     /**
      * Convert all json fields to arrays.
-     *
-     * @return void
      */
     protected function prepareForValidation(): void
     {
@@ -33,7 +29,7 @@ class ProductRequest extends APIFormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         $rules = [
             'price' => 'required|numeric',

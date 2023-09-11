@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+use App\Models\Promotion;
 use App\Http\Requests\FilterRequest;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\PromotionResource;
-use App\Models\Post;
-use App\Models\Promotion;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class MainPageController extends Controller
@@ -54,10 +54,9 @@ class MainPageController extends Controller
      *
      * Display a listing of promotions.
      *
-     * @return JsonResponse
      * @throws \Exception
      */
-    public function promotions(FilterRequest $request)
+    public function promotions(FilterRequest $request): JsonResponse
     {
         $filter_params = $request->filterParams();
         $data = PromotionResource::collection(Promotion::getAll($filter_params))->resource;
@@ -107,10 +106,9 @@ class MainPageController extends Controller
      * )
      * Display a listing of the resource.
      *
-     * @return JsonResponse
      * @throws \Exception
      */
-    public function posts(FilterRequest $request)
+    public function posts(FilterRequest $request): JsonResponse
     {
         $filter_params = $request->filterParams();
         $data = PostResource::collection(Post::getAll($filter_params))->resource;
@@ -137,11 +135,8 @@ class MainPageController extends Controller
      * )
      *
      * Display the specified blog.
-     *
-     * @param Post $post
-     * @return JsonResponse
      */
-    public function showPost(Post $post)
+    public function showPost(Post $post): JsonResponse
     {
         return $this->jsonResponse(data: new PostResource($post));
     }

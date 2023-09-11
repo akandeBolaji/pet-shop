@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\File;
+use Illuminate\Support\Str;
+use Illuminate\Http\JsonResponse;
 use App\Http\Requests\FileRequest;
 use App\Http\Resources\FileResource;
-use App\Models\File;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -39,9 +38,6 @@ class FilesController extends Controller
      * )
      *
      * Upload file
-     *
-     * @param FileRequest $request
-     * @return JsonResponse
      */
     public function store(FileRequest $request): JsonResponse
     {
@@ -89,11 +85,8 @@ class FilesController extends Controller
      * )
      *
      * Display the specified file
-     *
-     * @param File $file
-     * @return JsonResponse
      */
-    public function show(File $file)
+    public function show(File $file): JsonResponse
     {
         return $this->jsonResponse(data: new FileResource($file));
     }

@@ -4,9 +4,9 @@ namespace App\Models;
 
 use App\Traits\Filterable;
 use App\Traits\HasUUIDField;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * App\Models\Brand.
@@ -37,10 +37,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Brand extends Model
 {
     use HasFactory, HasUUIDField, Filterable, SoftDeletes;
-    
+
     protected $fillable = [
         'title',
         'slug',
     ];
 }
- 

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\FilterRequest;
-use App\Http\Requests\OrderRequest;
-use App\Http\Resources\OrderResource;
-use App\Http\Services\OrderService;
+use Throwable;
 use App\Models\Order;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\OrderRequest;
+use App\Http\Services\OrderService;
+use App\Http\Requests\FilterRequest;
+use App\Http\Resources\OrderResource;
 use Symfony\Component\HttpFoundation\Response;
-use Throwable;
 
 class OrdersController extends Controller
 {
@@ -60,11 +60,8 @@ class OrdersController extends Controller
      *      @OA\Response(response=500, description="Internal Server Error")
      * )
      * Display a listing of the resource.
-     *
-     * @param FilterRequest $request
-     * @return JsonResponse
      */
-    public function index(FilterRequest $request)
+    public function index(FilterRequest $request): JsonResponse
     {
         $filter_params = $request->filterParams();
 
@@ -113,11 +110,8 @@ class OrdersController extends Controller
      *      @OA\Response(response=500, description="Internal Server Error")
      * )
      * Display a listing of the resource.
-     *
-     * @param FilterRequest $request
-     * @return JsonResponse
      */
-    public function dashboad(FilterRequest $request)
+    public function dashboad(FilterRequest $request): JsonResponse
     {
         $filter_params = $request->filterParams();
 
@@ -162,11 +156,8 @@ class OrdersController extends Controller
      * )
      *
      * Store a newly created resource in storage.
-     *
-     * @param OrderRequest $request
-     * @return JsonResponse
      */
-    public function store(OrderRequest $request)
+    public function store(OrderRequest $request): JsonResponse
     {
         $order = $this->orderService->create($request->validFields());
         if ($order !== null) {
@@ -196,11 +187,8 @@ class OrdersController extends Controller
      * )
      *
      * Display the specified order.
-     *
-     * @param Order $order
-     * @return JsonResponse
      */
-    public function show(Order $order)
+    public function show(Order $order): JsonResponse
     {
         return $this->jsonResponse(data: new OrderResource($order));
     }
@@ -248,12 +236,8 @@ class OrdersController extends Controller
      * )
      *
      * Update the specified resource in storage.
-     *
-     * @param OrderRequest $request
-     * @param Order $order
-     * @return JsonResponse
      */
-    public function update(OrderRequest $request, Order $order)
+    public function update(OrderRequest $request, Order $order): JsonResponse
     {
         if ($this->orderService->update($order, $request->validFields())) {
             return $this->jsonResponse(data: new OrderResource($order));
@@ -282,11 +266,9 @@ class OrdersController extends Controller
      * )
      * Remove the specified order from storage.
      *
-     * @param Order $order
-     * @return JsonResponse
      * @throws Throwable
      */
-    public function destroy(Order $order)
+    public function destroy(Order $order): JsonResponse
     {
         if ($this->orderService->delete($order)) {
             return $this->jsonResponse();

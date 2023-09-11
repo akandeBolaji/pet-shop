@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\FilesController;
 use App\Http\Controllers\MainPageController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\OrderStatusesController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\ProductsController;
@@ -114,4 +115,20 @@ Route::group(['prefix' => 'v1/payment', 'middleware' => ['auth:api']], function 
 Route::group(['prefix' => 'v1/file'], function () {
     Route::get('{file:uuid}', [FilesController::class, 'show'])->name('file.show');
     Route::post('/upload', [FilesController::class, 'store'])->middleware('auth:api')->name('file.upload');
+});
+
+/* Orders Endpoint */
+Route::group(['prefix' => 'v1/orders', 'middleware' => ['auth:api', 'admin']], function () {
+    Route::get('/', [OrdersController::class, 'index'])->name('orders');
+    Route::get('dashboard', [OrdersController::class, 'index'])->name('orders.dashboard');
+});
+
+Route::group(['prefix' => 'v1/order', 'middleware' => ['auth:api']], function () {
+    Route::get('{order:uuid}', [OrdersController::class, 'show'])->name('order.show');
+    Route::post('create', [OrdersController::class, 'store'])->middleware('user')->name('order.create');
+
+    Route::group(['middleware' => 'admin'], function () {
+        Route::put('{order:uuid}', [OrdersController::class, 'update'])->name('order.update');
+        Route::delete('{order:uuid}', [OrdersController::class, 'destroy'])->name('order.delete');
+    });
 });

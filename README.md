@@ -12,6 +12,9 @@ php artisan l5-swagger:generate
 
 ./laravel-docker.sh insights
 
+./vendor/bin/phpstan analyse --memory-limit=2G
+
+
 
 docker-compose down
 docker-compose up -d --build

@@ -106,15 +106,20 @@ class Product extends Model
     protected function additionalQueryFromModel(): void
     {
         //add special queries based on category
-        if (isset($this->filter_params->category)) {
-            $this->query->join('categories', 'categories.uuid', '=', 'products.category_uuid')
-                ->where('categories.title', $this->filter_params->category);
+        if (isset($this->filter_params->brand)) {
+            $this->query->join('brands', function($join) {
+                $join->on('brands.title', '=', $this->filter_params->brand)
+                    ->where('products.metadata', 'like', DB::raw('CONCAT("%", brands.uuid, "%")'));
+            });
         }
+        
 
         //add special queries based on category
         if (isset($this->filter_params->brand)) {
-            $this->query->join('brands', 'products.metadata', 'like', DB::raw("CONCAT('%', brands.uuid, '%')"))
-                ->where('brands.title', $this->filter_params->brand);
-        }
+            $this->query->join('brands', function($join) {
+                $join->whereRaw('products.metadata LIKE CONCAT("%", brands.uuid, "%")')
+                     ->where('brands.title', '=', $this->filter_params->brand);
+            });
+        }        
     }
 }

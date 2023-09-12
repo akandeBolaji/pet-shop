@@ -12,6 +12,8 @@ class FilterParams
 
     public array $date_range;
 
+    public string $brand;
+
     public function __construct(array $filter_params)
     {
         foreach ($filter_params as $field => $value) {

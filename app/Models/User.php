@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -169,7 +170,7 @@ class User extends Authenticatable
 
 
     /**
-     * @return HasMany<Order>
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function orders(): HasMany
     {

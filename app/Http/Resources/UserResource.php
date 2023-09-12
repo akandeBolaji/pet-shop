@@ -32,7 +32,7 @@ class UserResource extends JsonResource
             'created_at' => $this->resource->created_at,
             'updated_at' => $this->resource->updated_at,
             'last_login_at' => $this->resource->last_login_at,
-            'token' => $this->resource->whenNotNull($this->resource->token),
+            'token' => $this->resource->token,
         ];
     }
 }

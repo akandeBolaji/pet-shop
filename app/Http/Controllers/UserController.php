@@ -131,7 +131,7 @@ class UserController extends Controller
      */
     public function logout(): JsonResponse
     {
-        if (Auth::logout()) {
+        if (Auth::attemptLogout()) {
             return $this->jsonResponse();
         }
 

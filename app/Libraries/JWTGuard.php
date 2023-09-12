@@ -82,7 +82,7 @@ class JWTGuard implements Guard
      * @param array $credentials
      * @return string|null
      */
-    public function attempt(array $credentials = []): ?string
+    public function attemptLogin(array $credentials = []): ?string
     {
         $user = $this->provider->retrieveByCredentials($credentials);
 
@@ -101,7 +101,7 @@ class JWTGuard implements Guard
      *
      * @return bool
      */
-    public function logout(): bool
+    public function attemptLogout(): bool
     {
         $user = $this->request->user();
 

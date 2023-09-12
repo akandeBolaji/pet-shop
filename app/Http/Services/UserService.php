@@ -66,7 +66,7 @@ class UserService
     {
         $credentials['is_admin'] = true;
 
-        return Auth::attempt($credentials);
+        return Auth::attemptLogin($credentials);
     }
 
     /**
@@ -78,7 +78,7 @@ class UserService
     {
         $credentials['is_admin'] = false;
 
-        return Auth::attempt($credentials);
+        return Auth::attemptLogin($credentials);
     }
 
     /**

@@ -54,6 +54,9 @@ class ProductRequest extends APIFormRequest
         return $rules;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function messages()
     {
         $messages = parent::messages();

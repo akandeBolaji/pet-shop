@@ -102,6 +102,7 @@ class Order extends Model
      * Get all the orders.
      *
      * @throws \Exception
+     * @return LengthAwarePaginator<Order>
      */
     public static function getAll(FilterParams $filter_params): LengthAwarePaginator
     {

@@ -13,7 +13,7 @@ class UserService
     /**
      * Register new admin.
      *
-     * @param array $data
+     * @param array<string, mixed> $data
      * @throws Exception
      */
     public function registerAdmin(array $data): UserResource
@@ -26,7 +26,7 @@ class UserService
     /**
      * Register new user.
      *
-     * @param array $data
+     * @param array<string, mixed> $data
      * @throws Exception
      */
     public function registerUser(array $data): UserResource
@@ -39,7 +39,7 @@ class UserService
     /**
      * Create a user record.
      *
-     * @param array $data
+     * @param array<string, mixed> $data
      *@throws Exception
      */
     private function create(array $data, bool $is_admin = false): User
@@ -60,7 +60,7 @@ class UserService
     /**
      * Validates admin credentials and returns access token.
      *
-     * @param array $credentials
+     * @param array<string, mixed> $credentials
      */
     public function adminLogin(array $credentials): ?string
     {
@@ -72,7 +72,7 @@ class UserService
     /**
      * Validates user credentials and returns access token.
      *
-     * @param array $credentials
+     * @param array<string, mixed> $credentials
      */
     public function userLogin(array $credentials): ?string
     {
@@ -84,7 +84,7 @@ class UserService
     /**
      * Updates user record.
      *
-     * @param array $data
+     * @param array<string, mixed> $data
      */
     public function update(User $user, array $data): bool
     {

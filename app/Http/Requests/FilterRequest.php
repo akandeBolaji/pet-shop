@@ -46,6 +46,9 @@ class FilterRequest extends APIFormRequest
         ];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function messages(): array
     {
         $messages = parent::messages();

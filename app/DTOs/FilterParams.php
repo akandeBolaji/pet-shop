@@ -10,10 +10,14 @@ class FilterParams
 
     public bool $desc;
 
+    /** @var array<string> */
     public array $date_range;
 
     public string $brand;
 
+    /**
+     * @param array<string, mixed> $filter_params
+    */
     public function __construct(array $filter_params)
     {
         foreach ($filter_params as $field => $value) {
@@ -35,7 +39,7 @@ class FilterParams
     /**
      * Convert object to an array.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function toArray(): array
     {

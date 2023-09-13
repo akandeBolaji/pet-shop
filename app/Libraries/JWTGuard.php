@@ -69,6 +69,12 @@ class JWTGuard implements Guard
         return null;
     }
 
+    /**
+     * Validates user's credentials.
+     *
+     * @param array<string, mixed> $credentials
+     * @return bool
+     */
     public function validate(array $credentials = []): bool
     {
         $user = $this->provider->retrieveByCredentials($credentials);
@@ -79,7 +85,7 @@ class JWTGuard implements Guard
     /**
      * Validates user's credentials and returns access token.
      *
-     * @param array $credentials
+     * @param array<string, mixed> $credentials
      * @return string|null
      */
     public function attemptLogin(array $credentials = []): ?string

@@ -52,7 +52,9 @@ trait Filterable
     /**
      * Get all database records by building the necessary query and returning paginated records.
      *
-     * @param array $filterables
+     * @param FilterParams $filter_params
+     * @param array<int, string> $filterables
+     * @return LengthAwarePaginator<self>
      * @throws Exception
      */
     private static function getRecords(FilterParams $filter_params, array $filterables = []): LengthAwarePaginator
@@ -75,8 +77,8 @@ trait Filterable
 
     /**
      * Set the instance parameters.
-     *
-     * @param array $filterables
+     * @param FilterParams $filter_params
+     * @param array<int, string> $filterables
      */
     private function setInstanceParams(self $instance, FilterParams $filter_params, array $filterables): void
     {
@@ -142,6 +144,7 @@ trait Filterable
     /**
      * Get all db records.
      *
+     * @return LengthAwarePaginator<self>
      * @throws Exception
      */
     public static function getAll(FilterParams $filter_params): LengthAwarePaginator

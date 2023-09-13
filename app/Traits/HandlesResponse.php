@@ -10,8 +10,8 @@ trait HandlesResponse
     /**
      * Prepare json response.
      *
-     * @param array $errors
-     * @param array $trace
+     * @param array<string, mixed> $errors
+     * @param array<string, mixed> $trace
      */
     protected function jsonResponse(
         int $status_code = Response::HTTP_OK,

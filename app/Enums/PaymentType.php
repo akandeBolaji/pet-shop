@@ -10,6 +10,9 @@ class PaymentType
     const CASH_ON_DELIVERY = 'cash_on_delivery';
     const BANK_TRANSFER = 'bank_transfer';
 
+    /**
+     * @return array<int, string>
+     */
     public static function values(): array
     {
         return [

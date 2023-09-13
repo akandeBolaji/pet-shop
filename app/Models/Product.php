@@ -94,6 +94,7 @@ class Product extends Model
      * Get all db records.
      *
      * @throws Exception
+     * @return LengthAwarePaginator<Product>
      */
     public static function getAll(FilterParams $filter_params): LengthAwarePaginator
     {

@@ -170,7 +170,7 @@ class User extends Authenticatable
 
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Order>
      */
     public function orders(): HasMany
     {
@@ -181,7 +181,7 @@ class User extends Authenticatable
      * Get users.
      *
      * @param FilterParams $filter_params
-     * @return LengthAwarePaginator
+     * @return LengthAwarePaginator<User>
      * @throws Exception
      */
     public static function getUsers(FilterParams $filter_params): LengthAwarePaginator

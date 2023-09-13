@@ -51,7 +51,7 @@ class OrderService
     /**
      * Creates a new order record.
      *
-     * @param array $data
+     * @param array<string, mixed> $data
      */
     public function create(array $data): ?Order
     {
@@ -82,7 +82,7 @@ class OrderService
     /**
      * Calculate the total amount of the products and populate the products with product name and price.
      *
-     * @param array $products
+     * @param array<string, mixed> $products
      */
     private function calculateAmount(array &$products): float
     {
@@ -107,7 +107,7 @@ class OrderService
     /**
      * Update order record.
      *
-     * @param array $data
+     * @param array<string, mixed> $data
      */
     public function update(Order $order, array $data): bool
     {

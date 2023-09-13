@@ -38,6 +38,9 @@ abstract class APIFormRequest extends FormRequest
         );
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function validFields(): array
     {
         return (array) $this->validated();

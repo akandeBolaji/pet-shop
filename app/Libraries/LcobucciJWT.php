@@ -32,6 +32,9 @@ class LcobucciJWT extends JWTLibraryClient
         $unique_id = Str::random(20);
         $expires_at = $now->modify('+ '.$this->expires_in.' seconds');
 
+        assert(is_string($this->issuer) && $this->issuer !== '', 'Issuer should be a non-empty string.');
+        assert(is_string($unique_id) && $unique_id !== '', 'Unique ID should be a non-empty string.');
+
         $token = $this->config->builder()
             ->issuedBy($this->issuer) // Configures the issuer (iss claim)
             ->identifiedBy($unique_id) // Configures the id (jti claim), replicating as a header item
@@ -54,6 +57,7 @@ class LcobucciJWT extends JWTLibraryClient
     {
         try {
             //parse the token
+            assert(is_string($token) && $token !== '', 'Token should be a non-empty string.');
             /** @var UnencryptedToken $unencrypted_token */
             $unencrypted_token = $this->config->parser()->parse($token);
 
@@ -78,15 +82,16 @@ class LcobucciJWT extends JWTLibraryClient
     protected function configure(): void
     {
         $signer = new Signer\Hmac\Sha256();
+        assert(is_string($this->private_key) && $this->private_key !== '', 'Private key should be a non-empty string.');
+        assert(is_string($this->public_key) && $this->public_key !== '', 'Public key should be a non-empty string.');
         $private_key = InMemory::plainText($this->private_key);
         $public_key = InMemory::plainText($this->public_key);
 
-        //create the config
         $this->config = Configuration::forAsymmetricSigner($signer, $private_key, $public_key);
 
         $clock = SystemClock::fromSystemTimezone();
 
-        //set the validation constraints
+        assert(is_string($this->issuer) && $this->issuer !== '', 'Issuer should be a non-empty string.');
         $this->config->setValidationConstraints(
             new IssuedBy($this->issuer),
             new SignedWith($signer, $private_key),

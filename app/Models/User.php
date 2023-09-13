@@ -2,19 +2,18 @@
 
 namespace App\Models;
 
+use Exception;
+use Carbon\Carbon;
 use App\DTOs\FilterParams;
 use App\Traits\Filterable;
+use Illuminate\Support\Str;
 use App\Traits\HasJwtTokens;
-
-use Carbon\Carbon;
-use Exception;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
  * App\Models\User.
@@ -35,11 +34,11 @@ use Illuminate\Support\Str;
  * @property Carbon|null $updated_at
  * @property Carbon|null $last_login_at
  * @property Carbon|null $deleted_at
- * @property-read DatabaseNotificationCollection|DatabaseNotification[] $notifications
+ * @property-read DatabaseNotificationCollection|array<DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
- * @property-read Collection|Order[] $orders
+ * @property-read Collection|array<Order> $orders
  * @property-read int|null $orders_count
- * @property-read Collection|JwtToken[] $tokens
+ * @property-read Collection|array<JwtToken> $tokens
  * @property-read int|null $tokens_count
  * @method static \Database\Factories\UserFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
@@ -83,7 +82,7 @@ class User extends Authenticatable
         'avatar',
         'address',
         'phone_number',
-        'is_marketing'
+        'is_marketing',
     ];
 
     /**
@@ -106,18 +105,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'is_admin' => 'boolean',
         'is_marketing' => 'boolean',
-        'last_login_at' => 'datetime'
+        'last_login_at' => 'datetime',
     ];
 
     /**
      * The model's default values for attributes.
      *
-     * @var array<string, string|boolean>
+     * @var array<string, string|bool>
      */
     protected $attributes = [
         'uuid' => '',
         'is_admin' => false,
-        'is_marketing' => false
+        'is_marketing' => false,
     ];
 
     /**
@@ -135,39 +134,32 @@ class User extends Authenticatable
         'is_admin',
     ];
 
-   /**
+    /**
      * The "booted" method of the model.
-     *
-     * @return void
      */
-    protected static function booted()
+    protected static function booted(): void
     {
-        static::creating(function ($user) {
+        static::creating(function ($user): void {
             $user->uuid = Str::uuid()->toString();
         });
     }
 
     /**
      * Called when user logs in
-     *
-     * @return void
      */
-    public function loggedIn()
+    public function loggedIn(): void
     {
         $this->last_login_at = Carbon::now();
         $this->save();
     }
- 
+
     /**
      * Checks if user is admin.
-     *
-     * @return bool
      */
     public function isAdmin(): bool
     {
         return $this->is_admin;
     }
-
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany<Order>
@@ -180,7 +172,6 @@ class User extends Authenticatable
     /**
      * Get users.
      *
-     * @param FilterParams $filter_params
      * @return LengthAwarePaginator<User>
      * @throws Exception
      */

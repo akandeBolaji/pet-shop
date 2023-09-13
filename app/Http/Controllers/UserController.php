@@ -206,20 +206,13 @@ class UserController extends Controller
     {
         $user = $request->user();
 
-        try {
-            Gate::denyIf(fn ($user) => $user->isAdmin());
+        Gate::denyIf(fn ($user) => $user->isAdmin());
 
-            if ($user !== null && $this->userService->update($user, $request->all())) {
-                return $this->jsonResponse();
-            }
-
-            return response()->json(['success' => 0, 'error' => __('profile.edit_failed')]);
-        } catch (AuthorizationException) {
-            return $this->jsonResponse(
-                status_code: Response::HTTP_UNAUTHORIZED,
-                error: __('profile.admin_edit_disallowed')
-            );
+        if ($user !== null && $this->userService->update($user, $request->all())) {
+            return $this->jsonResponse();
         }
+
+        return response()->json(['success' => 0, 'error' => __('profile.edit_failed')]);
     }
 
     /**
@@ -244,19 +237,12 @@ class UserController extends Controller
     {
         $user = $request->user();
 
-        try {
-            Gate::denyIf(fn ($user) => $user->isAdmin());
+        Gate::denyIf(fn ($user) => $user->isAdmin());
 
-            if ($user !== null && $this->userService->delete($user)) {
-                return $this->jsonResponse();
-            }
-
-            return response()->json(['success' => 0, 'error' => __('profile.delete_failed')]);
-        } catch (AuthorizationException) {
-            return $this->jsonResponse(
-                status_code: Response::HTTP_UNAUTHORIZED,
-                error: __('profile.admin_delete_disallowed')
-            );
+        if ($user !== null && $this->userService->delete($user)) {
+            return $this->jsonResponse();
         }
+
+        return response()->json(['success' => 0, 'error' => __('profile.delete_failed')]);
     }
 }

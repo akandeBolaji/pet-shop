@@ -1,0 +1,15 @@
+{
+    "name": "pet-shop/currency-exchanger",
+    "autoload": {
+        "psr-4": {
+            "PetShop\\CurrencyExchanger\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "akandeBolaji",
+            "email": "akandebolajidanielofficial@gmail.com"
+        }
+    ],
+    "require": {}
+}

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c79db330c9142bf835a938dde074d2bb",
+    "content-hash": "1b1976a3b1c1e6d5734793bb32ad5d4e",
     "packages": [
         {
             "name": "brick/math",
@@ -2596,6 +2596,30 @@
                 }
             ],
             "time": "2023-02-08T01:06:31+00:00"
+        },
+        {
+            "name": "pet-shop/currency-exchanger",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "./packages/pet-shop/currency-exchanger",
+                "reference": "0b41903e04c3b02b80e67c2e9b7139e099e9a2ba"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PetShop\\CurrencyExchanger\\": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "akandeBolaji",
+                    "email": "akandebolajidanielofficial@gmail.com"
+                }
+            ],
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "phpoption/phpoption",
@@ -11078,7 +11102,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "pet-shop/currency-exchanger": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

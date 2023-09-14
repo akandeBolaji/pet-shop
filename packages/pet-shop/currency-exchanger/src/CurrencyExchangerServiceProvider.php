@@ -16,6 +16,8 @@ class CurrencyExchangerServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../config/currency-exchanger.php' => config_path('currency-exchanger.php'),
         ], 'config');
+        
+        $this->loadRoutesFrom(__DIR__.'/routes/api.php');
     }
 
     /**

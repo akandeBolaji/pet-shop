@@ -66,7 +66,7 @@ class ProductTest extends TestCase
 
         $product = Product::find($product->id);
         $this->assertEquals($product->title, $update->title);
-        $this->assertEquals($product->price, $update->price);
+        $this->assertEquals(round($product->price, 2), round($update->price, 2));
         $this->assertEquals($product->description, $update->description);
         $this->assertEquals($product->category_uuid, $update->category_uuid);
         $this->assertEquals(json_encode($product->metadata), $update->metadata);

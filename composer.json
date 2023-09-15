@@ -37,7 +37,8 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/",
-            "PetShop\\CurrencyExchanger\\": "packages/currency-exchanger/src/"
+            "PetShop\\CurrencyExchanger\\": "packages/currency-exchanger/src/",
+            "PetShop\\CurrencyExchanger\\Tests\\": "packages/currency-exchanger/tests/"
         }
     },
     "scripts": {
@@ -53,7 +54,8 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ]
+        ],
+        "test-package": "./vendor/bin/phpunit -c ./vendor/pet-shop/currency-exchanger/phpunit.xml"
     },
     "extra": {
         "laravel": {

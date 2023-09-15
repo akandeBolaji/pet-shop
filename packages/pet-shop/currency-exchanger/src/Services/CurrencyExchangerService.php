@@ -6,11 +6,16 @@ use GuzzleHttp\Client;
 
 class CurrencyExchangerService
 {
+    protected $client;
+
+    public function __construct(Client $client)
+    {
+        $this->client = $client;
+    }
+
     public function getExchangeRate($currencyToExchange)
     {
-        // Fetch the exchange rates
-        $client = new Client();
-        $response = $client->get('https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml');
+        $response = $this->client->get('https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml');
         $xml = simplexml_load_string($response->getBody());
 
         $rates = [];
@@ -26,4 +31,3 @@ class CurrencyExchangerService
         return $amount * $exchangeRate;
     }
 }
-

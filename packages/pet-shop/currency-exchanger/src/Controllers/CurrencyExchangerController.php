@@ -3,6 +3,7 @@
 namespace PetShop\CurrencyExchanger\Controllers;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use PetShop\CurrencyExchanger\Services\CurrencyExchangerService;
@@ -24,7 +25,11 @@ class CurrencyExchangerController extends Controller
         $amount = $request->input('amount');
         $currencyToExchange = $request->input('currency_to_exchange');
 
-        $exchangeRate = $currencyExchangerService->getExchangeRate($currencyToExchange);
+        try {
+            $exchangeRate = $currencyExchangerService->getExchangeRate($currencyToExchange);
+        } catch (RequestException $e) {
+            return $this->responseHandler->jsonResponse(status_code: Response::HTTP_INTERNAL_SERVER_ERROR, error:'Failed to fetch data from the European Central Bank');
+        }
 
         if (!$exchangeRate) {
             return $this->responseHandler->jsonResponse(status_code: Response::HTTP_UNPROCESSABLE_ENTITY, error:'Currency not supported');

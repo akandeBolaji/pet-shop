@@ -2,6 +2,7 @@
 
 namespace PetShop\CurrencyExchanger\Controllers;
 
+use Exception;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Routing\Controller;
 use PetShop\CurrencyExchanger\Services\CurrencyExchangerService;
@@ -19,7 +20,39 @@ class CurrencyExchangerController extends Controller
         $this->responseHandler = $responseHandler;
         $this->currencyExchangerService = $currencyExchangerService;
     }
- 
+
+    /**
+     * @OA\Get(
+     *      path="/api/v1/currency-exchange",
+     *      operationId="currencyExchange",
+     *      tags={"Currency Exchange"},
+     *      summary="Get Qoute for currency exchange",
+     *      @OA\Parameter(
+     *          name="amount",
+     *          in="query",
+     *          required=true,
+     *          @OA\Schema(
+     *             type="integer",
+     *         ),
+     *      ),
+     *      @OA\Parameter(
+     *          name="currency_to_exchange",
+     *          in="query",
+     *          required=true,
+     *          @OA\Schema(
+     *             type="string",
+     *         ),
+     *      ),
+     *      @OA\Response(response=200, description="OK"),
+     *      @OA\Response(response=404, description="Page Not Found"),
+     *      @OA\Response(response=422, description="Unprocessable Entity"),
+     *      @OA\Response(response=500, description="Internal Server Error")
+     * )
+     *
+     * Display a listing of the resource.
+     *
+     * @throws Exception
+     */
     public function convert(CurrencyConversionRequest $request)
     {
         $amount = $request->input('amount');

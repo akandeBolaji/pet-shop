@@ -2417,6 +2417,47 @@
                     }
                 ]
             }
+        },
+        "/api/v1/currency-exchange": {
+            "get": {
+                "tags": [
+                    "Currency Exchange"
+                ],
+                "summary": "Get Qoute for currency exchange",
+                "operationId": "currencyExchange",
+                "parameters": [
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "currency_to_exchange",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "Page Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
         }
     },
     "components": {

@@ -40,6 +40,7 @@ return [
                 */
                 'annotations' => [
                     base_path('app'),
+                    base_path('vendor/pet-shop/currency-exchanger/src'),
                 ],
 
             ],

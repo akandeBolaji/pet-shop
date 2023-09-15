@@ -1,20 +1,15 @@
 <?php
 
-namespace App\Traits;
+namespace PetShop\CurrencyExchanger\Services;
 
+use PetShop\CurrencyExchanger\Contracts\ResponseHandlerContract;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-trait HandlesResponse
-{
-    /**
-     * Prepare json response.
-     *
-     * @param array<string, mixed> $errors
-     * @param array<string, mixed> $trace
-     */
+class DefaultResponseHandler implements ResponseHandlerContract {
+    
     public function jsonResponse(
-        int $status_code = Response::HTTP_OK,
+        int $status_code,
         mixed $data = [],
         mixed $error = null,
         array $errors = [],

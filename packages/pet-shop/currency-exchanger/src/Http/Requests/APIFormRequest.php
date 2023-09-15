@@ -4,11 +4,12 @@ namespace PetShop\CurrencyExchanger\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpFoundation\Response;
+use PetShop\CurrencyExchanger\Contracts\ResponseHandlerContract;
 
 abstract class APIFormRequest extends FormRequest
-{
+{    
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -26,14 +27,13 @@ abstract class APIFormRequest extends FormRequest
      */
     protected function failedValidation(Validator $validator): void
     {
+        $responseHandler = app(ResponseHandlerContract::class);
         throw new HttpResponseException(
-            response()->json([
-                'success' => 0 ,
-                'data' => [],
-                'error' =>  __('validation.invalid_inputs'),
-                'errors' => $validator->errors()->toArray(),
-                'trace' => [],
-            ], Response::HTTP_UNPROCESSABLE_ENTITY)
+            $responseHandler->jsonResponse(
+                status_code: Response::HTTP_UNPROCESSABLE_ENTITY,
+                error: __('validation.invalid_inputs'),
+                errors: $validator->errors()->toArray()
+            )
         );
     }
 

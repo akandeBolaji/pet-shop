@@ -4,6 +4,9 @@ namespace PetShop\CurrencyExchanger;
 
 use Illuminate\Support\ServiceProvider;
 
+use PetShop\CurrencyExchanger\Contracts\ResponseHandlerContract;
+use PetShop\CurrencyExchanger\Services\DefaultResponseHandler;
+
 class CurrencyExchangerServiceProvider extends ServiceProvider
 {
     /**
@@ -16,7 +19,7 @@ class CurrencyExchangerServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../config/currency-exchanger.php' => config_path('currency-exchanger.php'),
         ], 'config');
-        
+
         $this->loadRoutesFrom(__DIR__.'/routes/api.php');
     }
 
@@ -28,5 +31,8 @@ class CurrencyExchangerServiceProvider extends ServiceProvider
     public function register()
     {
         // Here we'll bind classes, register services, etc.
+        if (!$this->app->bound(ResponseHandlerContract::class)) {
+            $this->app->bind(ResponseHandlerContract::class, DefaultResponseHandler::class);
+        }
     }
 }

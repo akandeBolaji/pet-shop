@@ -3,12 +3,12 @@
 namespace PetShop\CurrencyExchanger\Controllers;
 
 use Exception;
-use GuzzleHttp\Exception\RequestException;
 use Illuminate\Routing\Controller;
+use GuzzleHttp\Exception\RequestException;
+use Symfony\Component\HttpFoundation\Response;
+use PetShop\CurrencyExchanger\Contracts\ResponseHandlerContract;
 use PetShop\CurrencyExchanger\Services\CurrencyExchangerService;
 use PetShop\CurrencyExchanger\Http\Requests\CurrencyConversionRequest;
-use PetShop\CurrencyExchanger\Contracts\ResponseHandlerContract;
-use Symfony\Component\HttpFoundation\Response;
 
 class CurrencyExchangerController extends Controller
 {
@@ -73,7 +73,7 @@ class CurrencyExchangerController extends Controller
         return $this->responseHandler->jsonResponse(status_code: Response::HTTP_OK, data:[
             'amount' => $amount,
             'currency_to_exchange' => $currencyToExchange,
-            'converted_amount' => $convertedAmount
+            'converted_amount' => $convertedAmount,
         ]);
     }
 }

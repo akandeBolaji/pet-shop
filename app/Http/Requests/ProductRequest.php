@@ -57,7 +57,7 @@ class ProductRequest extends APIFormRequest
     /**
      * @return array<string, mixed>
      */
-    public function messages()
+    public function messages(): array
     {
         $messages = parent::messages();
         $messages['metadata.array'] = 'The metadata supplied is not a valid json array';

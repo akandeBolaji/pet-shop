@@ -4,7 +4,8 @@ namespace PetShop\CurrencyExchanger\Contracts;
 
 use Illuminate\Http\JsonResponse;
 
-interface ResponseHandlerContract {
+interface ResponseHandlerContract
+{
     /**
      * Prepare a JSON response.
      *
@@ -13,7 +14,7 @@ interface ResponseHandlerContract {
      * @param mixed $error A general error message or data.
      * @param array<string, mixed> $errors Specific error messages or data.
      * @param array<string, mixed> $trace A trace or debug information.
-     * 
+     *
      * @return JsonResponse The formatted JSON response.
      */
     public function jsonResponse(

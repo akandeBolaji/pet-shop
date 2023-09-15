@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace PetShop\CurrencyExchanger\Http\Requests;
 
@@ -13,7 +13,7 @@ class CurrencyConversionRequest extends APIFormRequest
     {
         return [
             'amount' => 'required|numeric|min:0',
-            'currency_to_exchange' => 'required|string|max:3'
+            'currency_to_exchange' => 'required|string|max:3',
         ];
     }
 

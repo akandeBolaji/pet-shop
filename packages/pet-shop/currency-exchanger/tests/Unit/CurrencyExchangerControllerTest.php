@@ -2,14 +2,15 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
-use PetShop\CurrencyExchanger\Contracts\ResponseHandlerContract;
-use PetShop\CurrencyExchanger\Controllers\CurrencyExchangerController;
-use PetShop\CurrencyExchanger\Services\CurrencyExchangerService;
-use PetShop\CurrencyExchanger\Http\Requests\CurrencyConversionRequest;
+
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\JsonResponse;
+use PetShop\CurrencyExchanger\Contracts\ResponseHandlerContract;
+use PetShop\CurrencyExchanger\Controllers\CurrencyExchangerController;
+use PetShop\CurrencyExchanger\Http\Requests\CurrencyConversionRequest;
+use PetShop\CurrencyExchanger\Services\CurrencyExchangerService;
+use PHPUnit\Framework\TestCase;
 
 class CurrencyExchangerControllerTest extends TestCase
 {

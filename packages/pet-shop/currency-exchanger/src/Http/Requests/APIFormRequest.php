@@ -4,12 +4,12 @@ namespace PetShop\CurrencyExchanger\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use PetShop\CurrencyExchanger\Contracts\ResponseHandlerContract;
 
 abstract class APIFormRequest extends FormRequest
-{    
+{
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,7 +22,7 @@ abstract class APIFormRequest extends FormRequest
      */
     abstract public function rules(): array;
 
-    /** 
+    /**
      * Customize the response when validation fails.
      */
     protected function failedValidation(Validator $validator): void

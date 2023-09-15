@@ -20,7 +20,7 @@ class CurrencyExchangerService
 
         $rates = [];
         foreach ($xml->Cube->Cube->Cube as $rate) {
-            $rates[(string)$rate['currency']] = (float)$rate['rate'];
+            $rates[(string) $rate['currency']] = (float) $rate['rate'];
         }
 
         return $rates[$currencyToExchange] ?? null;

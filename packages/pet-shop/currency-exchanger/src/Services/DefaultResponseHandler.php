@@ -2,12 +2,11 @@
 
 namespace PetShop\CurrencyExchanger\Services;
 
-use PetShop\CurrencyExchanger\Contracts\ResponseHandlerContract;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
+use PetShop\CurrencyExchanger\Contracts\ResponseHandlerContract;
 
-class DefaultResponseHandler implements ResponseHandlerContract {
-    
+class DefaultResponseHandler implements ResponseHandlerContract
+{
     public function jsonResponse(
         int $status_code,
         mixed $data = [],

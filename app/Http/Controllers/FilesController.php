@@ -43,34 +43,33 @@ class FilesController extends Controller
     public function store(FileRequest $request): JsonResponse
     {
         $uploaded_file = $request->file('file');
-    
+
         // Assert that we have an instance of UploadedFile
         if (!($uploaded_file instanceof UploadedFile)) {
             // Handle this case, maybe throw an error or return a response
             return $this->jsonResponse(Response::HTTP_UNPROCESSABLE_ENTITY, 'No valid file uploaded.');
         }
-    
+
         $filename = 'pet-shop/' . Str::random(40) . '.' . $uploaded_file->getClientOriginalExtension();
         $path = Storage::disk('public')->putFileAs('', $uploaded_file, $filename);
         $file = Storage::disk('public')->get($filename);
-    
+
         $record = new File([
             'name' => Str::random(16),
             'type' => $uploaded_file->getMimeType(),
             'size' => round(Storage::size($filename) / 1024) . ' KB',
             'path' => $path,
         ]);
-    
+
         if ($record->save()) {
             return $this->jsonResponse(data: new FileResource($record));
         }
-    
+
         // Delete the file if saving the record fails
         Storage::disk('public')->delete($filename);
-    
+
         return $this->jsonResponse(Response::HTTP_UNPROCESSABLE_ENTITY, 'Failed to store file data.');
     }
-    
 
     /**
      * @OA\Get(

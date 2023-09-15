@@ -97,7 +97,7 @@ For PHPInsights
 `./laravel-docker.sh insights`
 
 For larastan
-`./vendor/bin/phpstan analyse --memory-limit=2G`
+`docker-compose exec app ./vendor/bin/phpstan analyse --memory-limit=2G`
 
 To drop docker container, rebuild and start
 `docker-compose down`

@@ -1,26 +1,69 @@
 # CurrencyExchanger Package
 
-The `CurrencyExchanger` package provides functionalities to convert currencies with ease. This package also allows for flexible response handling, ensuring that you can integrate it seamlessly into various applications.
+The `CurrencyExchanger` package is designed for users, especially international ones, who want to determine the price of a product or the total cart amount in their preferred currency. This package taps into the European Central Bank daily reference to fetch the day's exchange rate, ensuring up-to-date conversions.
+
+## Features
+
+- Fetches daily exchange rate from the European Central Bank.
+- Exposes a standard API GET endpoint for currency conversion.
+- Allows custom response handling.
+- Integrated Swagger documentation.
+- Contains unit tests to ensure reliability.
 
 ## Installation
 
 1. Install via composer:
 
-   ```
+   ```bash
    composer require petshop/currencyexchanger
    ```
 
-2. Publish the configuration (if provided):
+2. Publish the configuration:
 
-   ```
+   ```bash
    php artisan vendor:publish --provider="PetShop\CurrencyExchanger\CurrencyExchangerServiceProvider"
+   ```
+
+3. For Swagger documentation, make sure to add the `l5-swagger` package. This package's annotations should be added in the `l5-swagger.php` configuration:
+
+   ```php
+   'annotations' => [
+       base_path('vendor/pet-shop/currency-exchanger/src'),
+   ],
+   ```
+
+   To regenerate Swagger, run:
+
+   ```bash
+   ./laravel-docker.sh l5-swagger:generate
    ```
 
 ## Usage
 
+### API Endpoint
+
+To convert currencies, utilize the endpoint:
+
+```
+http://localhost:8080/api/v1/currency-exchange
+```
+
+Parameters:
+
+- `amount`: The amount you want to convert.
+- `currency to exchange`: The desired currency.
+
+Note: Default currency is set to Euro.
+
+For detailed request and response structure, refer to the Swagger documentation:
+
+```
+http://localhost:8080/api/documentation
+```
+
 ### Default Response Handling
 
-By default, the package uses a built-in response handler that provides responses in the following format:
+The built-in response format is:
 
 ```json
 {
@@ -34,48 +77,29 @@ By default, the package uses a built-in response handler that provides responses
 
 ### Custom Response Handling
 
-If you'd like to customize the response structure, the package provides a `ResponseHandlerContract` that you can implement in your application or any other package. 
+To adjust the response structure:
 
-1. Implement the `ResponseHandlerContract`:
+1. Implement the `ResponseHandlerContract` in your app or package.
+   
+2. Bind your custom implementation in a service provider.
 
-   ```php
-   namespace App\Services;
+Detailed instructions can be found in the "Custom Response Handling" section above.
 
-   use PetShop\CurrencyExchanger\Contracts\ResponseHandlerContract;
-   use Illuminate\Http\JsonResponse;
-   use Symfony\Component\HttpFoundation\Response;
+## Testing
 
-   class CurrencyPackageResponseHandler implements ResponseHandlerContract {
-       public function jsonResponse(
-           int $status_code = Response::HTTP_OK,
-           $data = [],
-           $error = null,
-           array $errors = [],
-           array $trace = []
-       ): JsonResponse {
-           // Your custom logic here
-       }
-   }
-   ```
+To execute the unit tests, run:
 
-2. Bind your implementation in the `AppServiceProvider` or any other service provider:
-
-   ```php
-   use App\Services\CurrencyPackageResponseHandler;
-   use PetShop\CurrencyExchanger\Contracts\ResponseHandlerContract;
-
-   $this->app->bind(ResponseHandlerContract::class, CurrencyPackageResponseHandler::class);
-   ```
-
-If you don't bind a custom implementation, the package will fall back to its default response handler.
+```bash
+composer test-package
+```
 
 ## Integration in Other Applications
 
-If integrating this package into other applications, you have two primary options:
+Adopt either:
 
-1. Use the default response handling as provided by the package.
-2. Implement your own response handling mechanism by adhering to the `ResponseHandlerContract`. This allows you to maintain consistency in response structures across your applications.
+1. The package's default response handling.
+2. Your custom response handling by adhering to the `ResponseHandlerContract`.
 
 ## Contributing
 
-If you'd like to contribute to the `CurrencyExchanger` package, please submit a pull request or open an issue for discussion.
+Contributions to the `CurrencyExchanger` package are encouraged. Open an issue for discussions or submit a pull request.
